@@ -18,444 +18,74 @@
     --radius: 12px;
     --shadow: 0 2px 12px rgba(0,0,0,0.08);
   }
-
   * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    font-family: 'Segoe UI', system-ui, sans-serif;
-    background: var(--grigio-bg);
-    color: var(--testo);
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-  }
-
-  header {
-    background: var(--verde-dark);
-    color: white;
-    padding: 0 24px;
-    height: 64px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-shrink: 0;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-  }
-
-  .header-left {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .logo-circle {
-    width: 40px;
-    height: 40px;
-    background: var(--verde-light);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    font-size: 16px;
-    color: white;
-    flex-shrink: 0;
-  }
-
-  .header-title {
-    font-size: 18px;
-    font-weight: 600;
-    letter-spacing: 0.3px;
-  }
-
-  .header-sub {
-    font-size: 12px;
-    opacity: 0.7;
-    margin-top: 1px;
-  }
-
-  .status-dot {
-    width: 8px;
-    height: 8px;
-    background: #69db7c;
-    border-radius: 50%;
-    display: inline-block;
-    margin-right: 6px;
-    animation: pulse 2s infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
-  }
-
-  .status-text {
-    font-size: 13px;
-    opacity: 0.85;
-  }
-
-  .chat-container {
-    flex: 1;
-    overflow-y: auto;
-    padding: 24px;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    scroll-behavior: smooth;
-  }
-
-  .message {
-    display: flex;
-    gap: 10px;
-    max-width: 820px;
-    animation: fadeIn 0.3s ease;
-  }
-
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(8px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .message.user {
-    align-self: flex-end;
-    flex-direction: row-reverse;
-  }
-
-  .message.marco {
-    align-self: flex-start;
-  }
-
-  .avatar {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 13px;
-    font-weight: 700;
-    flex-shrink: 0;
-    margin-top: 2px;
-  }
-
-  .avatar.marco-av {
-    background: var(--verde);
-    color: white;
-  }
-
-  .avatar.user-av {
-    background: #dee2e6;
-    color: #495057;
-  }
-
-  .bubble {
-    padding: 12px 16px;
-    border-radius: var(--radius);
-    font-size: 15px;
-    line-height: 1.6;
-    max-width: 680px;
-    white-space: pre-wrap;
-    word-break: break-word;
-  }
-
-  .message.marco .bubble {
-    background: var(--bianco);
-    border: 1px solid var(--grigio-border);
-    border-top-left-radius: 4px;
-    box-shadow: var(--shadow);
-    color: var(--testo);
-  }
-
-  .message.user .bubble {
-    background: var(--verde);
-    color: white;
-    border-top-right-radius: 4px;
-  }
-
-  .bubble img {
-    max-width: 300px;
-    border-radius: 8px;
-    margin-top: 8px;
-    display: block;
-  }
-
-  .typing-indicator {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    align-self: flex-start;
-  }
-
-  .typing-dots {
-    background: var(--bianco);
-    border: 1px solid var(--grigio-border);
-    border-radius: var(--radius);
-    border-top-left-radius: 4px;
-    padding: 14px 18px;
-    display: flex;
-    gap: 5px;
-    align-items: center;
-    box-shadow: var(--shadow);
-  }
-
-  .dot {
-    width: 7px;
-    height: 7px;
-    background: var(--verde-light);
-    border-radius: 50%;
-    animation: bounce 1.2s infinite;
-  }
-
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--grigio-bg); color: var(--testo); height: 100vh; display: flex; flex-direction: column; }
+  header { background: var(--verde-dark); color: white; padding: 0 24px; height: 64px; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+  .header-left { display: flex; align-items: center; gap: 12px; }
+  .logo-circle { width: 40px; height: 40px; background: var(--verde-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; color: white; flex-shrink: 0; }
+  .header-title { font-size: 18px; font-weight: 600; letter-spacing: 0.3px; }
+  .header-sub { font-size: 12px; opacity: 0.7; margin-top: 1px; }
+  .status-dot { width: 8px; height: 8px; background: #69db7c; border-radius: 50%; display: inline-block; margin-right: 6px; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+  .status-text { font-size: 13px; opacity: 0.85; }
+  .chat-container { flex: 1; overflow-y: auto; padding: 24px; display: flex; flex-direction: column; gap: 16px; scroll-behavior: smooth; }
+  .message { display: flex; gap: 10px; max-width: 820px; animation: fadeIn 0.3s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  .message.user { align-self: flex-end; flex-direction: row-reverse; }
+  .message.marco { align-self: flex-start; }
+  .avatar { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; flex-shrink: 0; margin-top: 2px; }
+  .avatar.marco-av { background: var(--verde); color: white; }
+  .avatar.user-av { background: #dee2e6; color: #495057; }
+  .bubble { padding: 12px 16px; border-radius: var(--radius); font-size: 15px; line-height: 1.6; max-width: 680px; white-space: pre-wrap; word-break: break-word; }
+  .message.marco .bubble { background: var(--bianco); border: 1px solid var(--grigio-border); border-top-left-radius: 4px; box-shadow: var(--shadow); color: var(--testo); }
+  .message.user .bubble { background: var(--verde); color: white; border-top-right-radius: 4px; }
+  .bubble img { max-width: 280px; border-radius: 8px; margin-top: 8px; display: block; }
+  .typing-indicator { display: flex; gap: 10px; align-items: center; align-self: flex-start; }
+  .typing-dots { background: var(--bianco); border: 1px solid var(--grigio-border); border-radius: var(--radius); border-top-left-radius: 4px; padding: 14px 18px; display: flex; gap: 5px; align-items: center; box-shadow: var(--shadow); }
+  .dot { width: 7px; height: 7px; background: var(--verde-light); border-radius: 50%; animation: bounce 1.2s infinite; }
   .dot:nth-child(2) { animation-delay: 0.2s; }
   .dot:nth-child(3) { animation-delay: 0.4s; }
-
-  @keyframes bounce {
-    0%, 80%, 100% { transform: translateY(0); opacity: 0.4; }
-    40% { transform: translateY(-6px); opacity: 1; }
-  }
-
-  .input-area {
-    background: var(--bianco);
-    border-top: 1px solid var(--grigio-border);
-    padding: 16px 24px;
-    flex-shrink: 0;
-  }
-
-  .input-wrapper {
-    max-width: 820px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .attachments-row {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-  }
-
-  .attachment-preview {
-    position: relative;
-    display: inline-flex;
-  }
-
-  .attachment-preview img {
-    width: 64px;
-    height: 64px;
-    object-fit: cover;
-    border-radius: 8px;
-    border: 1px solid var(--grigio-border);
-  }
-
-  .attachment-preview .remove-btn {
-    position: absolute;
-    top: -6px;
-    right: -6px;
-    width: 18px;
-    height: 18px;
-    background: #dc3545;
-    color: white;
-    border: none;
-    border-radius: 50%;
-    font-size: 11px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    line-height: 1;
-  }
-
-  .input-row {
-    display: flex;
-    gap: 10px;
-    align-items: flex-end;
-  }
-
-  .input-box {
-    flex: 1;
-    border: 1.5px solid var(--grigio-border);
-    border-radius: var(--radius);
-    padding: 11px 14px;
-    font-size: 15px;
-    font-family: inherit;
-    resize: none;
-    outline: none;
-    transition: border-color 0.2s;
-    min-height: 48px;
-    max-height: 140px;
-    line-height: 1.5;
-    color: var(--testo);
-  }
-
-  .input-box:focus {
-    border-color: var(--verde-light);
-  }
-
+  @keyframes bounce { 0%, 80%, 100% { transform: translateY(0); opacity: 0.4; } 40% { transform: translateY(-6px); opacity: 1; } }
+  .input-area { background: var(--bianco); border-top: 1px solid var(--grigio-border); padding: 16px 24px; flex-shrink: 0; }
+  .input-wrapper { max-width: 820px; margin: 0 auto; display: flex; flex-direction: column; gap: 10px; }
+  .attachments-row { display: flex; gap: 8px; flex-wrap: wrap; }
+  .attachment-preview { position: relative; display: inline-flex; }
+  .attachment-preview img { width: 64px; height: 64px; object-fit: cover; border-radius: 8px; border: 1px solid var(--grigio-border); }
+  .attachment-preview .remove-btn { position: absolute; top: -6px; right: -6px; width: 18px; height: 18px; background: #dc3545; color: white; border: none; border-radius: 50%; font-size: 11px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  .pdf-badge { display: inline-flex; align-items: center; gap: 6px; background: #fff3cd; border: 1px solid #ffc107; border-radius: 8px; padding: 6px 10px; font-size: 13px; color: #856404; margin-top: 6px; }
+  .input-row { display: flex; gap: 10px; align-items: flex-end; }
+  .input-box { flex: 1; border: 1.5px solid var(--grigio-border); border-radius: var(--radius); padding: 11px 14px; font-size: 15px; font-family: inherit; resize: none; outline: none; transition: border-color 0.2s; min-height: 48px; max-height: 140px; line-height: 1.5; color: var(--testo); }
+  .input-box:focus { border-color: var(--verde-light); }
   .input-box::placeholder { color: #aaa; }
-
-  .btn-attach {
-    width: 48px;
-    height: 48px;
-    border: 1.5px solid var(--grigio-border);
-    border-radius: var(--radius);
-    background: white;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s;
-    color: var(--grigio-testo);
-    flex-shrink: 0;
-  }
-
-  .btn-attach:hover {
-    border-color: var(--verde-light);
-    color: var(--verde);
-    background: var(--verde-pale);
-  }
-
-  .btn-send {
-    width: 48px;
-    height: 48px;
-    background: var(--verde);
-    border: none;
-    border-radius: var(--radius);
-    color: white;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s;
-    flex-shrink: 0;
-  }
-
+  .btn-attach { width: 48px; height: 48px; border: 1.5px solid var(--grigio-border); border-radius: var(--radius); background: white; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; color: var(--grigio-testo); flex-shrink: 0; }
+  .btn-attach:hover { border-color: var(--verde-light); color: var(--verde); background: var(--verde-pale); }
+  .btn-send { width: 48px; height: 48px; background: var(--verde); border: none; border-radius: var(--radius); color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; flex-shrink: 0; }
   .btn-send:hover { background: var(--verde-light); }
   .btn-send:active { transform: scale(0.96); }
   .btn-send:disabled { background: #ccc; cursor: not-allowed; }
-
-  .hint {
-    font-size: 12px;
-    color: #aaa;
-    text-align: center;
-    margin-top: 4px;
-  }
-
-  .welcome {
-    text-align: center;
-    margin: auto;
-    padding: 40px 20px;
-  }
-
-  .welcome-icon {
-    width: 72px;
-    height: 72px;
-    background: var(--verde-pale);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 16px;
-    font-size: 32px;
-  }
-
-  .welcome h2 {
-    font-size: 22px;
-    font-weight: 600;
-    color: var(--verde-dark);
-    margin-bottom: 8px;
-  }
-
-  .welcome p {
-    color: var(--grigio-testo);
-    font-size: 15px;
-    max-width: 400px;
-    margin: 0 auto 24px;
-    line-height: 1.6;
-  }
-
-  .chips {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    justify-content: center;
-  }
-
-  .chip {
-    background: white;
-    border: 1px solid var(--grigio-border);
-    border-radius: 20px;
-    padding: 8px 16px;
-    font-size: 13px;
-    cursor: pointer;
-    color: var(--verde-dark);
-    transition: all 0.2s;
-    font-family: inherit;
-  }
-
-  .chip:hover {
-    background: var(--verde-pale);
-    border-color: var(--verde-light);
-  }
-
-  .pdf-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: #fff3cd;
-    border: 1px solid #ffc107;
-    border-radius: 8px;
-    padding: 6px 10px;
-    font-size: 13px;
-    color: #856404;
-    margin-top: 6px;
-  }
-
+  .hint { font-size: 12px; color: #aaa; text-align: center; margin-top: 4px; }
+  .welcome { text-align: center; margin: auto; padding: 40px 20px; }
+  .welcome-icon { width: 72px; height: 72px; background: var(--verde-pale); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; font-size: 32px; }
+  .welcome h2 { font-size: 22px; font-weight: 600; color: var(--verde-dark); margin-bottom: 8px; }
+  .welcome p { color: var(--grigio-testo); font-size: 15px; max-width: 420px; margin: 0 auto 24px; line-height: 1.6; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+  .chip { background: white; border: 1px solid var(--grigio-border); border-radius: 20px; padding: 8px 16px; font-size: 13px; cursor: pointer; color: var(--verde-dark); transition: all 0.2s; font-family: inherit; }
+  .chip:hover { background: var(--verde-pale); border-color: var(--verde-light); }
+  .brands-bar { display: flex; gap: 8px; justify-content: center; margin-top: 16px; flex-wrap: wrap; }
+  .brand-badge { background: var(--verde-dark); color: white; border-radius: 6px; padding: 4px 12px; font-size: 12px; font-weight: 600; letter-spacing: 0.5px; }
+  .api-missing { background: #fff3cd; border: 1px solid #ffc107; border-radius: var(--radius); padding: 16px 20px; margin: 20px auto; max-width: 500px; text-align: center; font-size: 14px; color: #856404; }
+  .api-missing input { width: 100%; margin-top: 10px; padding: 8px 12px; border: 1px solid #ffc107; border-radius: 8px; font-size: 14px; font-family: inherit; }
+  .api-missing button { margin-top: 8px; background: var(--verde); color: white; border: none; border-radius: 8px; padding: 8px 20px; cursor: pointer; font-size: 14px; font-family: inherit; }
   #fileInput { display: none; }
-
-  .api-missing {
-    background: #fff3cd;
-    border: 1px solid #ffc107;
-    border-radius: var(--radius);
-    padding: 16px 20px;
-    margin: 20px auto;
-    max-width: 500px;
-    text-align: center;
-    font-size: 14px;
-    color: #856404;
-  }
-
-  .api-missing input {
-    width: 100%;
-    margin-top: 10px;
-    padding: 8px 12px;
-    border: 1px solid #ffc107;
-    border-radius: 8px;
-    font-size: 14px;
-    font-family: inherit;
-  }
-
-  .api-missing button {
-    margin-top: 8px;
-    background: var(--verde);
-    color: white;
-    border: none;
-    border-radius: 8px;
-    padding: 8px 20px;
-    cursor: pointer;
-    font-size: 14px;
-    font-family: inherit;
-  }
 </style>
 </head>
 <body>
-
 <header>
   <div class="header-left">
     <div class="logo-circle">UT</div>
     <div>
       <div class="header-title">Ufficio Tecnico</div>
-      <div class="header-sub">Assistente componenti industriali</div>
+      <div class="header-sub">Tecom · Movex · Rexnord</div>
     </div>
   </div>
   <div>
@@ -468,12 +98,17 @@
   <div class="welcome" id="welcome">
     <div class="welcome-icon">🔧</div>
     <h2>Ciao, sono Marco</h2>
-    <p>Tecnico commerciale senior — componenti industriali. Mandami una foto, un codice articolo o descrivimi cosa ti serve.</p>
+    <p>Mandami una foto, un codice o descrivimi il componente. Cerco subito nei cataloghi Tecom, Movex e Rexnord e ti mostro gli equivalenti tra le marche.</p>
     <div class="chips">
-      <button class="chip" onclick="sendChip(this)">📷 Ho una foto del pezzo</button>
+      <button class="chip" onclick="sendChip(this)">📷 Allego foto del pezzo</button>
       <button class="chip" onclick="sendChip(this)">🔢 Ho il codice articolo</button>
-      <button class="chip" onclick="sendChip(this)">📝 Devo descrivere il componente</button>
-      <button class="chip" onclick="sendChip(this)">📄 Ho una scheda tecnica PDF</button>
+      <button class="chip" onclick="sendChip(this)">📝 Descrivo il componente</button>
+      <button class="chip" onclick="sendChip(this)">🔄 Cerco equivalente tra marche</button>
+    </div>
+    <div class="brands-bar">
+      <span class="brand-badge">TECOM 2026</span>
+      <span class="brand-badge">MOVEX</span>
+      <span class="brand-badge">REXNORD</span>
     </div>
   </div>
 </div>
@@ -489,7 +124,7 @@
           <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/>
         </svg>
       </button>
-      <textarea class="input-box" id="userInput" placeholder="Scrivi un codice, descrivi il pezzo, o allega una foto..." rows="1" onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
+      <textarea class="input-box" id="userInput" placeholder="Codice articolo, descrizione componente, o allega una foto..." rows="1" onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
       <button class="btn-send" id="sendBtn" onclick="sendMessage()">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
           <line x1="22" y1="2" x2="11" y2="13"></line>
@@ -497,93 +132,722 @@
         </svg>
       </button>
     </div>
-    <div class="hint">Invio per inviare • Shift+Invio per andare a capo</div>
+    <div class="hint">Invio per inviare · Shift+Invio per andare a capo</div>
   </div>
 </div>
 
 <script>
-const SYSTEM_PROMPT = `Sei Marco, un tecnico commerciale senior specializzato in componenti industriali con 20 anni di esperienza. Lavori per un'azienda che vende componenti multimarche e il tuo compito è aiutare a identificare e selezionare l'articolo giusto tra migliaia di referenze di catalogo.
+const SYSTEM_PROMPT = `Sei Marco, tecnico commerciale senior specializzato in componenti industriali con 20 anni di esperienza. Lavori per DUE EFFE inc. (Canelli, AT) — fornitore di articoli tecnici per impianti di trasporto, imbottigliamento, packaging, automazione, farmaceutico, alimentare.
 
-Il tuo modo di lavorare:
-- Quando ricevi una foto, un codice o una descrizione, analizzi con occhio tecnico e fai le domande giuste per capire esattamente cosa serve
-- Non dai mai una risposta vaga: sei preciso, tecnico, pratico
-- Quando hai capito cosa serve, presenti SEMPRE le opzioni disponibili raggruppate per marca, con codice articolo, descrizione tecnica e prezzo
-- Se non hai abbastanza informazioni per essere preciso, fai UNA domanda alla volta — la più importante — prima di procedere
-- Ragioni ad alta voce: spieghi perché stai proponendo quell'articolo e non un altro
-- Se noti che il cliente sta cercando la cosa sbagliata per la sua applicazione, glielo dici chiaramente e proponi l'alternativa corretta
+Il tuo compito principale: identificare componenti da foto, codice o descrizione e trovare corrispondenze ESATTE nei cataloghi Tecom, Movex e Rexnord che hai in dotazione, mostrandone gli equivalenti tra le marche.
 
-Quando ricevi una richiesta:
-1. Identifica il componente (tipo, famiglia, caratteristiche tecniche)
-2. Chiedi le specifiche mancanti se necessario (dimensioni, carico, materiale, ambiente di utilizzo)
-3. Cerca nel catalogo e presenta le opzioni disponibili in questo formato:
+## COME LAVORI
+1. Ricevi foto, codice o descrizione
+2. Identifichi il componente (tipo, famiglia, caratteristiche)
+3. Cerchi nel catalogo la corrispondenza esatta citando CODICE e PAGINA del catalogo
+4. Proponi gli equivalenti nelle altre marche con relativi codici
+5. Se non trovi corrispondenza esatta, lo dici chiaramente e chiedi più dettagli
+
+## FORMATO RISPOSTA
+---
+ARTICOLO IDENTIFICATO: [nome componente]
+
+TECOM
+  Codice: [Part. XXX]  Pagina catalogo: [N]
+  Descrizione: [descrizione tecnica]
+  Note: [materiale, applicazione]
+
+MOVEX  
+  Codice: [Article-Nr.]  Pagina catalogo: [N]
+  Descrizione: [descrizione tecnica]
+  Note: [materiale, applicazione]
+
+REXNORD
+  Codice: [codice]  Pagina catalogo: [N]
+  Descrizione: [descrizione tecnica]
+  Note: [materiale, applicazione]
+
+CONSIGLIO TECNICO: [quale sceglieresti e perché]
+---
+
+Se non hai abbastanza informazioni, fai UNA sola domanda — la più importante.
+Se la foto è poco chiara, chiedi una foto migliore specificando l'angolazione.
+Parla sempre in italiano. Tono: collega esperto, diretto, mai vago.
 
 ---
-ARTICOLO TROVATO: [nome componente]
+## CATALOGO TECOM 2026 (Tecom S.r.l., Novellara RE)
+Specializzazione: catene e componenti per movimentazione e trasporto, industria alimentare e farmaceutica.
 
-MARCA A — [Nome Marca]
-  Codice: [codice]
-  Descrizione: [descrizione tecnica]
-  Prezzo: [prezzo]
-  Note: [perché sceglierla]
+Basi di sostegno
 
-MARCA B — [Nome Marca]
-  Codice: [codice]
-  Descrizione: [descrizione tecnica]
-  Prezzo: [prezzo]
-  Note: [perché sceglierla]
+   Part. 200   pag. 10 Part. 201   pag. 10 Part. 202   pag. 11 Part. 203   pag. 11
 
-CONSIGLIO TECNICO: [quale sceglieresti tu e perché]
+
+   Testate
+
+   Part. 212   pag. 12 Part. 208   pag. 12 Part. 211   pag. 13 Part. 207   pag. 13 Part. 409   pag. 14 Part. 402   pag. 14
+
+
+   Giunti di collegamento
+
+   Part. 210   pag. 15 Part. 210   pag. 15 Part. 594   pag. 15 Part. 403   pag. 16 Part. 404   pag. 16 Part. 401   pag. 16
+
+
+   Supporti portaguide
+
+   Part. 557   pag. 17 Part. 213   pag. 17 Part. 558   pag. 18 Part. 559   pag. 18 Part. 214   pag. 19 Part. 216   pag. 19 Part. 217   pag. 20 Part. 279   pag. 20
+
+   Part. 215   pag. 21 Part. 243   pag. 21 Part. 218   pag. 22 Part. 244   pag. 22 Part. 219   pag. 23 Part. 255   pag. 23 Part. 280   pag. 24 Part. 281   pag. 24
+
+   Part. 488   pag. 25 Part. 490   pag. 25 Part. 491   pag. 26 Part. 489   pag. 26 Part. 209   pag. 27 Part. 220   pag. 27 Part. 242   pag. 28 Part. 486   pag. 28
+
+   Part. 487   pag. 29 Part. 224   pag. 29 Part. 225   pag. 29 Part. 530   pag. 30 Part. 560   pag. 30 Part. 236   pag. 31 Part. 235   pag. 31 Part. 387   pag. 32
+
+   Part. 392   pag. 32 Part. 436   pag. 32 Part. 408   pag. 33 Part. 408   pag. 33 Part. 442   pag. 34 Part. 441   pag. 34
+
+4
+
+  Sommario
+
+   Tiranti di serraggio
+
+Part. 406   pag. 35 Part. 407   pag. 35
+
+
+   Testine supporti
+
+Part. 222   pag. 36 Part. 221   pag. 36 Part. 266   pag. 36 Part. 223   pag. 37 Part. 256   pag. 37 Part. 526   pag. 37
+
+   Volantini e maniglie
+
+Part. 226   pag. 38 Part. 227   pag. 38 Part. 228   pag. 38 Part. 246   pag. 39 Part. 247   pag. 39 Part. 248   pag. 39 Part. 313   pag. 40 Part. 314   pag. 40
+
+Part. 315   pag. 40 Part. 386   pag. 41 Part. 334   pag. 41 Part. 337   pag. 41 Part. 338   pag. 41 Part. 382   pag. 42 Part. 383   pag. 42 Part. 350   pag. 42
+
+Part. 294   pag. 42 Part. 303   pag. 43 Part. 304   pag. 43 Part. 305   pag. 43 Part. 397   pag. 44 Part. 400   pag. 44 Part. 332   pag. 44
+
+   Morsetti
+
+Part. 297   pag. 45 Part. 312   pag. 45 Part. 333   pag. 46 Part. 239   pag. 47 Part. 241   pag. 47 Part. 237   pag. 48
+
+Part. 240   pag. 48 Part. 539   pag. 49 Part. 238   pag. 49 Part. 324   pag. 49 Part. 206   pag. 50 Part. 435   pag. 50
+
+   5
+
+   Sommario
+
+   Rullini sostegno ritorno
+
+   Part. 379   pag. 51 Part. 380   pag. 51 Part. 270   pag. 52 Part. 271   pag. 52 Part. 273   pag. 53 Part. 538   pag. 53 Part. 286   pag. 53 Part. 287   pag. 54
+
+   Part. 274   pag. 54 Part. 275   pag. 55 Part. 272   pag. 55 Part. 520   pag. 55 Part. 562   pag. 55 Part. 302   pag. 56 Part. 250   pag. 56 Part. 251   pag. 57
+
+   Part. 296   pag. 57 Part. 252   pag. 58 Part. 253   pag. 58 Part. 555   pag. 59 Part. 556   pag. 59 Part. 552   pag. 60 Part. 249   pag. 61 Part. 245   pag. 61
+
+   Part. 399   pag. 61 Part. 293   pag. 62 Part. 525   pag. 62 Part. 276   pag. 62 Part. 254   pag. 63 Part. 524   pag. 63 Part. 282   pag. 63 Part. 561   pag. 63
+
+
+   Nose over
+
+   Part. 553   pag. 64 Part. 553   pag. 65
+
+   Rinvio catena
+
+   Part. 311   pag. 66 Part. 529   pag. 66 Part. 285   pag. 66 Part. 310   pag. 67 Part. 268   pag. 67 Part. 269   pag. 67 Part. 454   pag. 68 Part. 455   pag. 68
+
+   Part. 456   pag. 69 Part. 457   pag. 69 Part. 473   pag. 70 Part. 472   pag. 70 Part. 543   pag. 71 Part. 542   pag. 71 Part. 541   pag. 72 Part. 540   pag. 72
+
+   Part. 523   pag. 73 Part. 535   pag. 73 Part. 564   pag. 74 Part. 563   pag. 74 Part. 566   pag. 75 Part. 565   pag. 75 Part. 568   pag. 76 Part. 567   pag. 76
+
+   Part. 571   pag. 77 Part. 570   pag. 77 Part. 573   pag. 78 Part. 572   pag. 78 Part. 575   pag. 79 Part. 574   pag. 79 Part. 577   pag. 80 Part. 576   pag. 80
+
+   Part. 579   pag. 81 Part. 578   pag. 81 Part. 581   pag. 82 Part. 580   pag. 82 Part. 583   pag. 83 Part. 582   pag. 83 Part. 585   pag. 84 Part. 584   pag. 84
+
+   Part. 587   pag. 85 Part. 586   pag. 85 Part. 589   pag. 86 Part. 588   pag. 86 Part. 591   pag. 87 Part. 590   pag. 87 Part. 593   pag. 88 Part. 592   pag. 88
+
+   Part. 459   pag. 89 Part. 458   pag. 89
+
+
+6
+
+  Sommario
+
+   Anelli di fermo
+
+Part. 288   pag. 90 Part. 376   pag. 90
+   Pattini
+
+Part. 267   pag. 91 Part. 359   pag. 91 Part. 428   pag. 92
+
+   Elementi per cambio formato
+
+Part. 299   pag. 93 Part. 331   pag. 94 Part. 352   pag. 95 Part. 462   pag. 96
+
+Part. 374   pag. 96 Part. 429   pag. 97 Part. 316   pag. 97
+   Gruppi tenditori
+
+Part. 277   pag. 98 Part. 278   pag. 98 Part. 554   pag. 99
+   Gruppi volventi
+
+Part. 300   pag. 100 Part. 317   pag. 100 Part. 263   pag. 100 Part. 264   pag. 101 Part. 265   pag. 101
+
+
+   Tappi
+
+Part. 336   pag. 102 Part. 335   pag. 102 Part. 414   pag. 103 Part. 283   pag. 103
+
+   Cerniere
+
+Part. 233   pag. 104 Part. 234   pag. 104 Part. 527   pag. 104
+   Controllo linea
+
+Part. 360   pag. 105
+   Moduli di trasferimento
+
+Part. 257   pag. 106 Part. 417   pag. 106 Part. 258   pag. 107 Part. 259   pag. 107 Part. 430   pag. 108 Part. 431   pag. 108
+
+Part. 260   pag. 109 Part. 416   pag. 109 Part. 261   pag. 110 Part. 262   pag. 110 Part. 432   pag. 111 Part. 433   pag. 111
+
+   7
+
+   Sommario
+
+   Guide prodotto e accessori
+
+   Part. 306   pag. 112 Part. 307   pag. 112 Part. 308   pag. 113 Part. 319   pag. 113 Part. 468   pag. 114 Part. 474   pag. 114
+
+   Part. 475   pag. 115 Part. 476   pag. 115 Part. 325   pag. 116 Part. 326   pag. 116 Part. 327   pag. 117 Part. 328   pag. 117
+
+   Part. 467   pag. 118 Part. 477   pag. 118 Part. 478   pag. 119 Part. 479   pag. 119 Part. 355   pag. 120 Part. 356   pag. 120
+
+   Part. 357   pag. 121 Part. 358   pag. 121 Part. 464   pag. 122 Part. 480   pag. 122 Part. 482   pag. 123 Part. 466   pag. 123
+
+   Part. 465   pag. 123 Part. 320   pag. 124 Part. 321   pag. 124 Part. 322   pag. 124 Part. 323   pag. 124 Part. 329   pag. 125
+
+   Part. 522   pag. 125 Part. 318   pag. 126 Part. 437   pag. 126 Part. 415   pag. 127 Part. 481   pag. 127 Part. 493   pag. 128
+
+   Part. 494   pag. 128 Part. 340   pag. 129 Part. 341   pag. 129 Part. 342   pag. 130 Part. 343   pag. 130 Part. 345   pag. 131
+
+   Part. 423   pag. 131 Part. 339   pag. 132 Part. 422   pag. 132 Part. 344   pag. 133 Part. 421   pag. 133 Part. 448   pag. 134
+
+   Part. 451   pag. 134 Part. 449   pag. 135 Part. 452   pag. 135 Part. 450   pag. 136 Part. 453   pag. 136 Part. 330   pag. 137
+
+   Part. 375   pag. 137 Part. 502   pag. 138 Part. 501   pag. 138 Part. 501   pag. 138 Part. 501   pag. 139 Part. 501   pag. 139
+
+   Part. 500   pag. 142 Part. 393   pag. 142 Part. 394   pag. 142 Part. 395   pag. 142 Part. 388   pag. 143 Part. 544   pag. 143
+
+   Part. 545   pag. 143 Part. 463   pag. 144 Part. 528   pag. 144 Part. 426   pag. 145 Part. 425   pag. 145 Part. 518   pag. 145
+
+   Part. 536   pag. 146 Part. 515   pag. 146 Part. 534   pag. 146 Part. 511   pag. 148 Part. 438   pag. 149 Part. 595   pag. 149
+
+   Part. 354   pag. 150 Part. 419   pag. 151 Part. 373   pag. 151 Part. 551   pag. 152 Part. 353   pag. 152 Part. 596   pag. 185
+
+   Part. 369   pag. 185 Part. 370   pag. 185 Part. 371   pag. 185
+
+8
+
+  Sommario
+
+   Morsetti portaguide
+
+Part. 470   pag. 46 Part. 521   pag. 140 Part. 548   pag. 140 Part. 548   pag. 141 Part. 548   pag. 141 Part. 548   pag. 141 Part. 427   pag. 147 Part. 434   pag. 147
+
+Part. 531   pag. 148 Part. 229   pag. 159 Part. 230   pag. 159 Part. 289   pag. 159 Part. 231   pag. 160 Part. 232   pag. 160 Part. 291   pag. 160 Part. 483   pag. 161
+
+Part. 484   pag. 161 Part. 290   pag. 161 Part. 346   pag. 162 Part. 347   pag. 162 Part. 348   pag. 163 Part. 349   pag. 163 Part. 301   pag. 164 Part. 460   pag. 164
+
+Part. 398   pag. 164 Part. 204   pag. 165 Part. 205   pag. 165 Part. 412   pag. 166 Part. 413   pag. 166 Part. 410   pag. 167 Part. 411   pag. 167 Part. 405   pag. 167
+
+Part. 440   pag. 168 Part. 439   pag. 168 Part. 424   pag. 169 Part. 443   pag. 169 Part. 537   pag. 169
+
+
+   Guide prodotto / catena e accessori
+
+Part. 418   pag. 153 Part. 446   pag. 153 Part. 469   pag. 154 Part. 420   pag. 154 Part. 514   pag. 155 Part. 485   pag. 155
+
+Part. 549   pag. 157 Part. 546   pag. 158 Part. 550   pag. 178 Part. 547   pag. 179
+
+
+   Guide catena e accessori
+
+Part. 377   pag. 156 Part. 381   pag. 170 Part. 513   pag. 170 Part. 385   pag. 171 Part. 517   pag. 171 Part. 512   pag. 172
+
+Part. 384   pag. 172 Part. 569   pag. 173 Part. 444   pag. 174 Part. 389   pag. 175 Part. 519   pag. 175 Part. 390   pag. 176
+
+Part. 391   pag. 176 Part. 461   pag. 177 Part. 492   pag. 177 Part. 496   pag. 181 Part. 495   pag. 181 Part. 497   pag. 181
+
+Part. 471   pag. 182 Part. 498   pag. 182 Part. 499   pag. 182 Part. 361   pag. 183 Part. 362   pag. 183 Part. 363   pag. 183
+
+Part. 364   pag. 183 Part. 365   pag. 184 Part. 366   pag. 184 Part. 367   pag. 184 Part. 368   pag. 184
+
+
+   9
+
+   Componenti per trasportatori
+
+
+   Basi di sostegno
+
+ Part. 2
+    00   Base di sostegno   58
+   (a tre braccia)
+   Df
+
+   M16
+   ø 80
+   100
+
+   16
+   M10
+
+   ø 430
+   ø 400
+   80
+   185
+   Sporgenza Max
+   consigliata
+
+   Df   Bulloneria in acciaio   Bulloneria in acciaio   Carico   Carico statico max.
+   Foro per tubi da   zincato   inox AISI 304   sfilamento tubo   applicabile
+   (mm)   (Pollici)   Codice   Codice   (N)   (N)
+   60,3   2” GAS   200 / 80588   200 / 80589
+   50,8   2” IMPERIAL   200 / 82070   200 / 82071
+   48,3   1”1/2 GAS   200 / 80590   200 / 80591
+   9600   15800
+   42,4   1”1/4 GAS   200 / 80592   200 / 80593
+   40x40   tubo quadro   200 / 85108   200 / 85109
+   45x45   tubo quadro   200 / 80271   200 / 80753
+
+   MATERIALI:Base in poliammide rinforzata colore nero; boccole filettate in ottone nichelato, bulloneria di serraggio in acciaio inox AISI 304 o acciaio zincato.
+   CARATTERISTICHE:Coppia massima di serraggio 3,6 Kg∙m.
+   CONFEZIONE:8 pezzi.
+   A RICHIESTA:
+   •• Basi:In diverse colorazioni.
+   •• Assemblaggio di:Viti, dadi, rosette.
+   •• Confezioni:Fuori standard.
+
+
+   Part. 2
+    01   Base di sostegno
+   (a due braccia a 120°)   58
+
+
+   M10   Df
+   M16
+   16
+
+   ø 80
+
+   100   ø4
+   0
+   ø4 0
+   30
+   104
+   80
+
+   70
+
+   Df1
+   40
+   Sporgenza Max
+   consigliata   185
+
+   Df   Df1   Bulloneria in acciaio   Bulloneria in acciaio   Carico   Carico statico max.
+   Foro per tubi da   Foro per tubi da   zincato   inox AISI 304   sfilamento tubo   applicabile
+   (mm)   (Pollici)   (mm)   (Pollici)   Codice   Codice   (N)   (N)
+   60,3   2” GAS   48,3   1”1/2 GAS   201 / 80612   201 / 80613
+   60,3   2” GAS   42,4   1”1/4 GAS   201 / 80614   201 / 80615
+   50,8   2” IMPERIAL   48,3   1”1/2 GAS   201 / 83200   201 / 83201
+   50,8   2” IMPERIAL   42,4   1”1/4 GAS   201 / 83202   201 / 83203   9600   15800
+   48,3   1”1/2 GAS   48,3   1”1/2 GAS   201 / 80616   201 / 80617
+   48,3   1”1/2 GAS   42,4   1”1/4 GAS   201 / 80618   201 / 80619
+   42,4   1”1/4 GAS   42,4   1”1/4 GAS   201 / 80620   201 / 80621
+
+   MATERIALI:Base in poliammide rinforzata colore nero; boccole filettate in ottone nichelato, bulloneria di serraggio in acciaio inox AISI 304 o acciaio zincato.
+   CARATTERISTICHE:Coppia massima di serraggio 3,6 Kg∙m.
+   CONFEZIONE:8 pezzi.
+   A RICHIESTA:
+   •• Basi:In diverse colorazioni.
+   •• Assemblaggio di:Viti, dadi, rosette.
+   •• Confezioni:Fuori standard.
+
+
+   Le dimensioni in pollici Imperial sono conformi al sistema imperiale britannico; le dimensioni in pollici GAS sono conformi alla normativa ANSI B36.10
+
+
+10
+
+  Componenti per trasportatori
+
+
+  Basi di sostegno
+   Base di sostegno   Part. 2
+    02
+   (a due braccia a 180°)
+
+   40
+
+   185
+   100
+
+   58
+   M16
+   ø 430
+   ø 400
+
+   16
+   M10   Df
+
+   80
+   104
+   70
+
+   Sporgenza Max
+   Df1   consigliata
+
+   Df   Df1   Bulloneria in acciaio   Bulloneria in acciaio   Carico   Carico statico max.
+   Foro per tubi da   Foro per tubi da   zincato   inox AISI 304   sfilamento tubo   applicabile
+   (mm)   (Pollici)   (mm)   (Pollici)   Codice   Codice   (N)   (N)
+   60,3   2” GAS   48,3   1”1/2 GAS   202 / 80622   202 / 80623
+   60,3   2” GAS   42,4   1”1/4 GAS   202 / 80624   202 / 80625
+   50,8   2” IMPERIAL   48,3   1”1/2 GAS   202 / 83204   202 / 83205
+   50,8   2” IMPERIAL   42,4   1”1/4 GAS   202 / 83206   202 / 83207   9600   15800
+   48,3   1”1/2 GAS   48,3   1”1/2 GAS   202 / 80626   202 / 80627
+   48,3   1”1/2 GAS   42,4   1”1/4 GAS   202 / 80628   202 / 80629
+   42,4   1”1/4 GAS   42,4   1”1/4 GAS   202 / 80630   202 / 80631
+MATERIALI:Base in poliammide rinforzata colore nero; boccole filettate in ottone nichelato; bulloneria di serraggio in acciaio inox AISI 304 o acciaio zincato.
+CARATTERISTICHE:Coppia massima di serraggio 3,6 Kg∙m.
+CONFEZIONE:8 pezzi.
+A RICHIESTA:
+  •• Basi:In diverse colorazioni.
+  •• Assemblaggio di:Viti, dadi, rosette.
+  •• Confezioni:Fuori standard.
+
+
+   Base di sostegno   Part. 2
+    03
+   (a due braccia a 180°)
+
 ---
+## CATALOGO MOVEX (Metric Version)
+Specializzazione: catene acciaio e plastica, nastri modulari, componenti per trasportatori, piedini di livellamento.
 
-Il tuo tono è quello di un collega esperto: diretto, competente, mai supponente. Parli in italiano. Se un cliente ti manda una foto poco chiara, chiedi una foto migliore specificando da quale angolazione.`;
+Steel chains   Pag 7
+
+
+   Plastic chains   Pag 27
+
+
+   Chain sprockets and Turning disks   Pag 77 / 102
+
+
+   Chain idler wheels   Pag 107
+
+
+   Magnetic, Tab & Bevel corner tracks   Pag 113
+
+
+   Modular belts and NoseBars   Pag 179 / 270
+
+
+   Modular solutions   Pag 285
+
+
+   Belt sprockets   Pag 311
+
+
+   Extruded profiles   Pag 341
+
+
+   Return components   Pag 435
+
+
+   Conveyor components   Pag 447
+
+
+   Conveyor support components   Pag 513
+
+
+   Bearing supports   Pag 529
+
+
+   Leveling feet   Pag 557
+
+
+   Materials   Pag 645
+
+   5
+
+6
+   movexii.com
+
+   Steel chains
+7
+
+812/815   812 GT/815 GT   815 TAB GT   815 MINI   815 MINI GT   802/805
+
+   Pag 8/9   Pag 10   Pag 11   Pag 12   Pag 12   Pag 13
+
+802 GT/805 GT   8157   8157 GT   512   881 M   881 M GT
+
+   Pag 14   Pag 15   Pag 15   Pag 16   Pag 17/18   Pag 19
+
+881 TAB   881 B   8811 TAB   8811 R TAB   8811 TAB GT   8811 B
+
+   Pag 20   Pag 21   Pag 22   Pag 23   Pag 23   Pag 24
+
+8857 M   8857 M GT   1874 TAB
+
+   Pag 25   Pag 25   Pag 26
+
+   Material
+   Info:
+
+
+   pg. 662->665
+
+   7
+
+   815
+   Catene in acciaio / Steel chains / Scharnierbandketten aus Edelstahl
+
+   815
+   Delivery:   Easy
+   Catena rettilinea
+   Straight running chain / Geradegängige Scharnierbandkette
+   Standard   Pins: Martensitic 1.4057 | Backflex radius min.: 150 mm
+
+   R150
+   3.1
+   9.8
+
+   6.6
+   42.1   38.1   Ø6.35
+
+   1.5
+
+   A (mm)
+   10 feet
+   3.048 m
+   80 links   78-79-93/108   pg. 662->665
+
+   Article-Nr.   Ref.   A (Plate Width)   Weight   Surface finish   Surface Flatness   Polished   Max working   Plate Thickness
+   mm   kg/m   μm   mm   Hinge eyes   load (N)   mm
+
+   SSM Max Speed - Hardened pins
+   10010302   SSM 815 K325   82,5   2,55   0,2   0,08   YES
+   6000   3,1
+   10010303   SSM 815 K330   83,8   2,59   0,2   0,08   YES
+
+   Max Speed High Performance
+
+
+   Improved   Minimum   Optimum plate
+   working load   possible gap   & hinge flatness
+Catene in acciaio / Steel chains / Scharnierbandketten aus Edelstahl
+
+   Link with
+   improved
+   Total quality control
+   chamfer
+
+   Calibrated pin   Polished hinges
+   Hardened pins   and hinge
+
+   8
+
+   812/815
+   Catene in acciaio / Steel chains / Scharnierbandketten aus Edelstahl
+
+812/815
+Delivery:   Easy   Standard
+   Catena rettilinea
+   Straight running chain / Geradegängige Scharnierbandkette
+   Pins: Martensitic 1.4057 | Backflex radius min.: 150 mm
+
+   R150
+   3.1
+   9.8
+
+   6.6
+   42.1   38.1   Ø6.35
+
+   1.5
+
+   A (mm)
+   10 feet
+   3.048 m
+   80 links   78-79-93/108   pg. 662->665
+
+   Article-Nr.   Ref.   A (Plate Width)   Weight   Surface finish   Surface Flatness   Polished   Max working   Plate Thickness
+   mm   kg/m   μm   mm   Hinge eyes   load (N)   mm
+
+   SS Ferritic Stainless Steel (1.4016)
+   10010216   SS 812 K300   76,2   2,50   0,5   0,15   NO
+   10010202   SS 812 K325   82,5   2,55   0,5   0,15   NO
+   10010203   SS 812 K330   83,8   2,59   0,5   0,15   NO
+   10010204   SS 812 K350   88,9   2,69   0,5   0,15   NO
+   5400   3,1
+   10010214   SS 812 K400   101,6   3,00   0,5   0,15   NO
+   10010205   SS 812 K450   114,3   3,25   0,5   0,20   NO
+   10010206   SS 812 K600   152,4   4,15   0,5   0,30   NO
+   10010207   SS 812 K750   190,5   5,05   0,5   0,30   NO
+
+   SSE Specially treated Ferritic Stainless Steel (1.4589) - Hardened pins
+   10010102   SSE 815 K325   82,5   2,55   0,3   0,10   YES
+   10010103   SSE 815 K330   83,8   2,59   0,3   0,10   YES
+   10010104   SSE 815 K350   88,9   2,69   0,3   0,15   NO   Catene in acciaio / Steel chains / Scharnierbandketten aus Edelstahl
+   10010114   SSE 815 K400   101,6   3,00   0,3   0,15   NO   6000   3,1
+   10010105   SSE 815 K450   114,3   3,25   0,3   0,20   NO
+   10010106   SSE 815 K600   152,4   4,15   0,3   0,30   NO
+   10010107   SSE 815 K750   190,5   5,05   0,3   0,30   NO
+
+   SSA Austenitic Stainless Steel (AISI 304) - Austenitic pin
+   10010402   SSA 815 K325   82,5   2,55   0,5   0,15   NO
+   10010403   SSA 815 K330   83,8   2,59   0,5   0,15   NO
+   10010404   SSA 815 K350   88,9   2,69   0,5   0,15   NO
+   5300   3,1
+   10010405   SSA 815 K450   114,3   3,25   0,5   0,20   NO
+   10010406   SSA 815 K600   152,4   4,15   0,5   0,30   NO
+   10010407   SSA 815 K750   190,5   5,05   0,5   0,30   NO
+
+   9
+
+   812 GT/815 GT
+   Catene in acciaio / Steel chains / Scharnierbandketten aus Edelstahl
+
+   812 GT/815 GT
+
+---
+## CATALOGO REXNORD (Conveyor Components, North America)
+Specializzazione: guide prodotto, morsetti, supporti, componenti frame, elementi di livellamento.
+
+......................1-60
+  Product Guides................................................................................ 1-28
+  Guide Rail Clamps......................................................................... 29-41
+  Guide Rail Brackets........................................................................ 42-58
+  Connecting Clamps.......................................................................59, 60
+Chain Guide Components........................................ 61-70
+  Chain Guide Profiles...................................................................... 61-67
+  Rollers for Chain Return................................................................. 68-70
+Frame Support Components.................................... 71-76
+  Miscellaneous......................................................................................71
+  Bearing Heads......................................................................................72
+  Side Mounting Top Brackets................................................................73
+  Connecting Joints................................................................................74
+  Support Base.................................................................................75, 76
+Roller Conveyor Components................................... 77-82
+  Roller End Bearings....................................................................... 77-81
+  Roller for Chain Return.........................................................................82
+Miscellaneous Components..................................... 83-96
+ Line Control Elements..........................................................................83
+ Tightening Elements...................................................................... 84-89
+ Shaft Collars........................................................................................90
+ Modular Transfer Plate...................................................................91, 92
+ Modular Nose-Over Bar................................................................. 93-95
+ Hinge...................................................................................................96
+Supporting & Leveling Elements..............................97-110
+  Tube End........................................................................................ 97-99
+  Articulated Feet.......................................................................... 100-110
+Index............................................................. 111-116
+
+Rexnord ® Conveyor Components Table of Contents   (8rxCMPCAT-en) i
+
+   Product Index
+Product Index
+
+   Round Guide Rail •   Flat Guide Rail •   Convex Guide Rail •   Wide Flat Guide Rail •   Round Guide Rail –   Flat Guide Rail –
+   Page 1   Page 1   Page 2   Page 2   Static Dissipative •   Static Dissipative •
+   Page 3   Page 3
+
+   Convex Guide Rail –   Wide Flat Guide Rail   0.75in Tee Guide Rail   1in Tee Guide Rail •   1.25in Tee Guide Rail   1.60in Tee Guide Rail
+   Static Dissipative •   – Static Dissipative •   • Page 5   Page 5   • Page 6   • Page 6
+   Page 4   Page 4
+
+   2.25in Tee Guide Rail   0.75in Tee Guide Rail   1in Tee Guide Rail –   1.25in Tee Guide Rail   1.60in Tee Guide Rail   2.25in Tee Guide Rail
+   • Page 7   – Static Dissipative •   Static Dissipative •   – Static Dissipative •   – Static Dissipative •   – Static Dissipative •
+   Page 7   Page 8   Page 8   Page 9   Page 9
+
+   Round Guide Rail –   Flat Guide Rail –   Convex Guide Rail –   Wide Flat Guide Rail – 20mm Tee Guide Rail   1in Tee Guide Rail –
+   Solid • Page 10   Solid • Page 10   Solid • Page 11   Solid • Page 11   – Solid • Page 12   Solid • Page 12
+
+   1.25in Tee Guide Rail   1.60in Tee Guide Rail   2.25in Tee Guide Rail   Round Guide Rail   1.25in Tee Guide   Aluminum and
+   – Solid • Page 13   – Solid • Page 13   – Solid • Page 14   – Solid – Static   Rail – Solid – Static   UHMWPE Guide
+   Dissipative • Page 14   Dissipative • Page 15   Rails – Half Round •
+   Page 15
+
+   Combination Group B Combination Group C Combination Group D   Center Roller Guide •   Center Roller Guide   Roller Side Guide –
+   • Page 16   • Page 17   • Page 17   Page 17   Divider Module •   580 • Page 18
+   Page 18
+
+   ii (8rxCMPCAT-en)   Rexnord Conveyor Components Product Index
+
+Product Index
+
+   Product Index
+ Roller Side Guide –   Stainless Steel M   Pearl™ Roller Side   Pearl™ Roller Center   Pearl™ Roller Side   Pearl™ Roller Center
+   581 • Page 19   Profile • Page 19   Guide – 1 Side 1 High   Guide – 2 Side 1 High   Guide – 1 Side 2 High   Guide – 2 Side 2 High
+   • Page 20   • Page 21   • Page 22   • Page 23
+
+  Connecting Bar •   Pearl™ Roller Side   Roller Guide   Roller Guide   FastRail Corner Clip •   Spacer – 291 •
+   Page 24   Guide Module •   Separation Block –   Separation Block –   Page 25   Page 26
+   Page 24   852 • Page 24   854 • Page 25
+
+   Spacer – 292 •   Rod Mounts With   Rod Mounts With Nut   Rod Mounts With   Rod Mounts With Nut   Rod Mounts With
+   Page 26   Knob – 641-K •   – 641-N • Page 27   Knob – 641T-K •   – 641T-N • Page 28   Ratchet Handle –
+   Page 27   Page 28   641T-R • Page 28
+
+ Single Rail Clamp –  Single Rail Clamp –  Double Rail Clamp –   Double Rail Clamp –   Double Rail Clamp   Rail Clamp & Metal
+Round Hole • Page 29 Square Hole • Page 29 Round Hole • Page 29 Square Hole • Page 30   – Square Hole 3in •   Rod Combination •
+   Page 30   Page 31
+
+Rail Clamp for Rod or Rod Clamp for Rod or   Adjusting Rods –   Jointed Adjusting   Rod End For Guide   Splice Sleeves •
+ Flat Bar • Page 31   Flat Bar • Page 32   Grooved • Page 32   Rod – Grooved •   Rail • Page 33   Page 34
+   Page 33
+
+   ViseSplice™ •   ViseSplice™ With   ViseClamp™ •   Aluminum   Backing Plate •   Plastic Compression
+   Page 34   Knobs • Page 35   Page 35   Compression Clip •   Page 36   Clip • Page 36
+   Page 36
+
+Rexnord Conveyor Components Product Index   (8rxCMPCAT-en) iii
+
+   Product Index
+Product Index
+
+   Clamp and Metal   Guide Rail Clamp For   Adjusting Rods –   Adjusting Rods –   Jointed Adjusting   Jointed Rod Adaptor •
+   Rod Combination for   Round Rods •
+`;
 
 let API_KEY = localStorage.getItem('marco_api_key') || '';
 let conversationHistory = [];
 let pendingFiles = [];
 let isLoading = false;
 
-if (!API_KEY) {
-  showApiKeyPrompt();
-}
+if (!API_KEY) showApiKeyPrompt();
 
 function showApiKeyPrompt() {
   const chat = document.getElementById('chat');
-  const existing = document.getElementById('apiPrompt');
-  if (existing) return;
+  if (document.getElementById('apiPrompt')) return;
   const div = document.createElement('div');
   div.id = 'apiPrompt';
   div.className = 'api-missing';
-  div.innerHTML = `
-    <strong>⚙️ Configura la tua API Key</strong><br>
-    Inserisci la chiave Anthropic per attivare Marco.<br>
-    <input type="password" id="apiKeyInput" placeholder="sk-ant-..." />
-    <br>
-    <button onclick="saveApiKey()">Salva e attiva Marco</button>
-  `;
+  div.innerHTML = `<strong>⚙️ Inserisci la tua API Key</strong><br>Necessaria per attivare Marco con i cataloghi.<br><input type="password" id="apiKeyInput" placeholder="sk-ant-..." /><br><button onclick="saveApiKey()">Attiva Marco</button>`;
   chat.appendChild(div);
 }
 
 function saveApiKey() {
   const val = document.getElementById('apiKeyInput').value.trim();
-  if (!val.startsWith('sk-')) {
-    alert('La chiave non sembra valida. Inizia con sk-ant-...');
-    return;
-  }
+  if (!val.startsWith('sk-')) { alert('Chiave non valida. Deve iniziare con sk-ant-...'); return; }
   API_KEY = val;
   localStorage.setItem('marco_api_key', val);
-  const el = document.getElementById('apiPrompt');
-  if (el) el.remove();
-  addMessage('marco', 'API key salvata! Ciao, sono Marco — tecnico commerciale senior. Mandami un codice, una foto o descrivimi il pezzo che cerchi. 💪');
+  document.getElementById('apiPrompt')?.remove();
+  addMessage('marco', 'API key salvata! Sono Marco — ho i cataloghi Tecom 2026, Movex e Rexnord caricati. Mandami un codice, una foto o dimmi cosa cerchi. 💪');
 }
 
 document.getElementById('fileInput').addEventListener('change', function(e) {
-  const files = Array.from(e.target.files);
-  files.forEach(file => {
+  Array.from(e.target.files).forEach(file => {
     const reader = new FileReader();
-    reader.onload = function(ev) {
-      pendingFiles.push({ name: file.name, type: file.type, data: ev.target.result });
-      renderAttachments();
-    };
+    reader.onload = ev => { pendingFiles.push({ name: file.name, type: file.type, data: ev.target.result }); renderAttachments(); };
     reader.readAsDataURL(file);
   });
   this.value = '';
@@ -596,7 +860,7 @@ function renderAttachments() {
     const div = document.createElement('div');
     div.className = 'attachment-preview';
     if (f.type.startsWith('image/')) {
-      div.innerHTML = `<img src="${f.data}" alt="${f.name}"><button class="remove-btn" onclick="removeFile(${i})">×</button>`;
+      div.innerHTML = `<img src="${f.data}"><button class="remove-btn" onclick="removeFile(${i})">×</button>`;
     } else {
       div.innerHTML = `<div class="pdf-badge">📄 ${f.name}</div><button class="remove-btn" onclick="removeFile(${i})" style="top:0;right:0">×</button>`;
     }
@@ -604,51 +868,21 @@ function renderAttachments() {
   });
 }
 
-function removeFile(i) {
-  pendingFiles.splice(i, 1);
-  renderAttachments();
-}
-
-function autoResize(el) {
-  el.style.height = 'auto';
-  el.style.height = Math.min(el.scrollHeight, 140) + 'px';
-}
-
-function handleKey(e) {
-  if (e.key === 'Enter' && !e.shiftKey) {
-    e.preventDefault();
-    sendMessage();
-  }
-}
-
-function sendChip(btn) {
-  const text = btn.textContent.replace(/^[^\s]+\s/, '');
-  document.getElementById('userInput').value = text;
-  sendMessage();
-}
+function removeFile(i) { pendingFiles.splice(i, 1); renderAttachments(); }
+function autoResize(el) { el.style.height = 'auto'; el.style.height = Math.min(el.scrollHeight, 140) + 'px'; }
+function handleKey(e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); } }
+function sendChip(btn) { document.getElementById('userInput').value = btn.textContent.replace(/^.{2}\s/, ''); sendMessage(); }
 
 function addMessage(role, text, imageData) {
-  const welcome = document.getElementById('welcome');
-  if (welcome) welcome.remove();
-
+  document.getElementById('welcome')?.remove();
   const chat = document.getElementById('chat');
   const wrap = document.createElement('div');
   wrap.className = `message ${role}`;
-
   const initials = role === 'marco' ? 'M' : 'TU';
   const avClass = role === 'marco' ? 'marco-av' : 'user-av';
-
-  let bubbleContent = text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-
-  let extra = '';
-  if (imageData) {
-    extra = `<img src="${imageData}" alt="allegato">`;
-  }
-
-  wrap.innerHTML = `
-    <div class="avatar ${avClass}">${initials}</div>
-    <div class="bubble">${bubbleContent}${extra}</div>
-  `;
+  const escaped = text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  const extra = imageData ? `<img src="${imageData}" alt="allegato">` : '';
+  wrap.innerHTML = `<div class="avatar ${avClass}">${initials}</div><div class="bubble">${escaped}${extra}</div>`;
   chat.appendChild(wrap);
   chat.scrollTop = chat.scrollHeight;
 }
@@ -656,87 +890,50 @@ function addMessage(role, text, imageData) {
 function showTyping() {
   const chat = document.getElementById('chat');
   const div = document.createElement('div');
-  div.className = 'typing-indicator';
-  div.id = 'typing';
-  div.innerHTML = `
-    <div class="avatar marco-av">M</div>
-    <div class="typing-dots">
-      <div class="dot"></div>
-      <div class="dot"></div>
-      <div class="dot"></div>
-    </div>
-  `;
+  div.className = 'typing-indicator'; div.id = 'typing';
+  div.innerHTML = `<div class="avatar marco-av">M</div><div class="typing-dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>`;
   chat.appendChild(div);
   chat.scrollTop = chat.scrollHeight;
 }
-
-function hideTyping() {
-  const el = document.getElementById('typing');
-  if (el) el.remove();
-}
+function hideTyping() { document.getElementById('typing')?.remove(); }
 
 async function sendMessage() {
   if (isLoading) return;
   if (!API_KEY) { showApiKeyPrompt(); return; }
-
   const input = document.getElementById('userInput');
   const text = input.value.trim();
   const files = [...pendingFiles];
-
   if (!text && files.length === 0) return;
-
-  input.value = '';
-  input.style.height = 'auto';
-  pendingFiles = [];
-  renderAttachments();
-
+  input.value = ''; input.style.height = 'auto';
+  pendingFiles = []; renderAttachments();
   const imageFile = files.find(f => f.type.startsWith('image/'));
-  addMessage('user', text || '(allegato)', imageFile ? imageFile.data : null);
-
+  addMessage('user', text || '(allegato)', imageFile?.data);
   const userContent = buildUserContent(text, files);
   conversationHistory.push({ role: 'user', content: userContent });
-
   isLoading = true;
   document.getElementById('sendBtn').disabled = true;
   showTyping();
-
   try {
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': API_KEY,
-        'anthropic-version': '2023-06-01',
-        'anthropic-dangerous-direct-browser-access': 'true'
-      },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 2048,
-        system: SYSTEM_PROMPT,
-        messages: conversationHistory
-      })
+      headers: { 'Content-Type': 'application/json', 'x-api-key': API_KEY, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
+      body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 2048, system: SYSTEM_PROMPT, messages: conversationHistory })
     });
-
     const data = await response.json();
-
     if (data.error) {
       hideTyping();
-      addMessage('marco', '⚠️ Errore API: ' + data.error.message);
-      if (data.error.type === 'authentication_error') {
-        localStorage.removeItem('marco_api_key');
-        API_KEY = '';
-      }
+      addMessage('marco', '⚠️ Errore: ' + data.error.message);
+      if (data.error.type === 'authentication_error') { localStorage.removeItem('marco_api_key'); API_KEY = ''; }
     } else {
       const reply = data.content[0].text;
       conversationHistory.push({ role: 'assistant', content: reply });
       hideTyping();
       addMessage('marco', reply);
     }
-  } catch (err) {
+  } catch(err) {
     hideTyping();
-    addMessage('marco', '⚠️ Errore di connessione. Controlla la tua API key e la connessione internet.');
+    addMessage('marco', '⚠️ Errore di connessione. Controlla la API key e la connessione.');
   }
-
   isLoading = false;
   document.getElementById('sendBtn').disabled = false;
   document.getElementById('userInput').focus();
@@ -744,30 +941,16 @@ async function sendMessage() {
 
 function buildUserContent(text, files) {
   if (files.length === 0) return text;
-
   const parts = [];
-
   files.forEach(f => {
+    const b64 = f.data.split(',')[1];
     if (f.type.startsWith('image/')) {
-      const b64 = f.data.split(',')[1];
-      const mediaType = f.type;
-      parts.push({
-        type: 'image',
-        source: { type: 'base64', media_type: mediaType, data: b64 }
-      });
+      parts.push({ type: 'image', source: { type: 'base64', media_type: f.type, data: b64 } });
     } else if (f.type === 'application/pdf') {
-      const b64 = f.data.split(',')[1];
-      parts.push({
-        type: 'document',
-        source: { type: 'base64', media_type: 'application/pdf', data: b64 }
-      });
+      parts.push({ type: 'document', source: { type: 'base64', media_type: 'application/pdf', data: b64 } });
     }
   });
-
-  if (text) {
-    parts.push({ type: 'text', text: text });
-  }
-
+  if (text) parts.push({ type: 'text', text });
   return parts;
 }
 </script>
