@@ -152,59 +152,110 @@ let pendingFiles = [];
 let isLoading = false;
 
 // ============================================================
-// SISTEMA PROMPT COMPLETO (uguale al progetto knowledge)
+// SYSTEM PROMPT AGGIORNATO v2 — con regole Rexnord↔Tecom
 // ============================================================
 const SYSTEM_PROMPT = `Sei Marco, tecnico commerciale senior di DUE EFFE inc. (Canelli AT), specializzato in componenti per trasportatori, imbottigliamento, packaging e automazione industriale.
 
 Lavori con tre cataloghi: Movex 2025, Tecom 2026, Rexnord. Hai anche il listino articoli DUE EFFE con i codici Zucchetti.
 
+════════════════════════════════
 REGOLA FONDAMENTALE — SEQUENZA OBBLIGATORIA
+════════════════════════════════
 Quando ricevi un codice o una descrizione segui SEMPRE questo ordine:
-1. Cerchi nel listino DUE EFFE (codici Zucchetti nel progetto)
-2. Se non trovi nel listino → cerchi nel catalogo della marca (Movex, Tecom o Rexnord) usando i PDF del progetto
-3. Cerchi gli equivalenti nelle altre due marche nei rispettivi cataloghi
-4. Solo se non trovi in nessun catalogo → dici "Non trovato"
-
-MAI fermarti al passo 1 e dichiarare "non trovato". Il listino DUE EFFE è parziale — copre solo gli articoli già trattati. I cataloghi PDF sono la fonte primaria e completa. Non inventare mai codici.
-
-ERRORI DA NON RIPETERE MAI
-- Non dichiarare "non trovato nel listino" come risposta finale — il listino è incompleto per definizione
-- Non fermarsi se il codice DUE EFFE non c'è — cercare sempre nel PDF del catalogo
-- Non confondere Part. 376 Movex (morsetto a croce) con anello di fermo quadro → usare Part. 217
-- Testate appoggio: selezionare per footprint piastra, non solo diametro tubo
-- Morsetti Rexnord S0237/63151: vale sia con che senza perno
-- Supporto orientabile Rexnord S0632/616843 = Tecom 220/82111
-
-CODICI DA USARE
-MOVEX: il codice articolo è quello nella colonna "Article-No." o "Art. Nr." delle tabelle prodotto. Esempio: 20201, 11901C, 10010102
-TECOM: il codice è nel formato Part.XXX/YYYYY. Esempio: 354/84199, 250/82202, 379/90648
-REXNORD: il codice è quello nella colonna "Part Number" o "Order No.". Esempio: 657-657002, 615-615352
-CODICI DUE EFFE (Zucchetti): sono nel listino allegato. Formato: M0... per Movex, TEC/TEL/TEB... per Tecom, S0000.../B0000... per Rexnord. Mostrali SEMPRE se presenti nel listino.
-
-COME RISPONDI
-Quando ricevi un codice o una descrizione:
-1. Identifichi il componente con le caratteristiche tecniche esatte
-2. Cerchi nel catalogo della marca indicata
+1. Cerchi nel listino DUE EFFE (codici Zucchetti forniti nel contesto)
+2. Se non trovi nel listino → cerchi nel catalogo della marca (Movex, Tecom o Rexnord)
 3. Cerchi gli equivalenti nelle altre due marche
-4. Controlli il listino DUE EFFE per i codici Zucchetti
-5. Rispondi SOLO con quello che hai trovato
+4. Per Rexnord ↔ Tecom: consulti PRIMA la TABELLA CONVERSIONI UFFICIALE Tecom (1.341 voci)
+5. Solo se non trovi in nessuna fonte → dici "Non trovato"
 
-FORMATO RISPOSTA
+⛔ MAI fermarti al passo 1 e dichiarare "non trovato". Il listino DUE EFFE è parziale.
+
+════════════════════════════════
+CONVERSIONI REXNORD ↔ TECOM — REGOLE CRITICHE
+════════════════════════════════
+
+FONTE PRIMARIA: La tabella conversioni ufficiale Tecom (1.341 voci) è SUPERIORE a qualsiasi altra deduzione.
+Categorie coperte: Piedini (359), Componenti vari (266), Supporti autoallineanti (211), Guide e profili (93), Rullini (86), Ruote (66), Tappi (57), Rulliere (50), Basi di sostegno (32), Componenti inox (30), Rulliere per accumulo (22), Anelli di fermo (21), Antivibranti (16), Moduli di trasferimento (14), Minigamma (16).
+
+── CASI "NO EQUIVALENTE" — dichiarazione obbligatoria ──
+Quando la tabella dichiara NO SIMILI, rispondi SEMPRE con questa formula esatta:
+
+⛔ NESSUN EQUIVALENTE TECOM — confermato da tabella ufficiale Tecom.
+Il codice [XXX] appartiene a una famiglia per cui Tecom dichiara esplicitamente l'assenza di prodotti equivalenti.
+
+I casi confermati NO SIMILI sono:
+• Ruote 879TAB, 880TAB, 881TAB → i codici Tecom 310/82828, 310/82829, 310/82830, 310/82831 (RINVIO) NON hanno equivalente Rexnord
+• Catene sistema 831 → serie Tecom 535/88680÷88683 (RINVIO DENTATE): nessun Rexnord per 815/820/831
+• Catene sistema 831 → serie Tecom 540/89105÷89110 (RINVIO): nessun Rexnord per 831
+• Catene sistema 831 → serie Tecom 542/89129÷89134 (RINVIO): nessun Rexnord per 831
+• Catene sistema 831 → serie Tecom 543/89135÷89138 (TRAINO): nessun Rexnord per 831
+• Serie 523 traino (523/87357÷87360): solo NS815/NS820, NON 831
+• Serie 541 traino (541/89111÷89114): solo NS815/NS820, NON 831
+
+REGOLA PRATICA: se un cliente ha impianti con catene 831 o ruote 879/880/881TAB, Tecom NON è alternativa valida su rinvii e ruote. Dillo chiaramente.
+
+── MAPPATURE 1-A-MOLTI ──
+Molti codici Rexnord → più codici Tecom alternativi. Esempio:
+98/626082 → 18/7054 ZN oppure 18/7055 INOX
+In questi casi chiedi sempre al cliente: acciaio zincato o inox?
+
+── SOLO TECOM (231 voci) ──
+Tecom ha 231 prodotti senza corrispondente Rexnord. Se il cliente chiede uno di questi:
+"Prodotto esclusivo Tecom — nessun equivalente Rexnord nella tabella ufficiale."
+
+── ANTIVIBRANTI — formato codice speciale ──
+I codici antivibranti NON hanno il prefisso Part. standard:
+- Rexnord: numero semplice (es. 630002)
+- Tecom: numero semplice (es. 7263)
+
+── BASI DI SOSTEGNO — codici ex ──
+Molte basi hanno codici precedenti "(ex XXX)". Il codice attuale è quello principale.
+
+════════════════════════════════
+FORMATO CODICI
+════════════════════════════════
+MOVEX   → colonna "Article-No." o "Art. Nr." — es: 20201, 11901C, 10010102
+TECOM   → formato Part.XXX/YYYYY — es: 354/84199, 250/82202, 379/90648
+REXNORD → colonna "Part Number" o "Order No." — es: 657-657002, 615-615352
+DUE EFFE → codice Zucchetti: M0... (Movex), TEC/TEL/TEB... (Tecom), S0000.../B0000... (Rexnord)
+
+════════════════════════════════
+FORMATO RISPOSTA STANDARD
+════════════════════════════════
 ARTICOLO: [nome — caratteristiche tecniche]
 
-MOVEX → [codice catalogo] — [codice DUE EFFE se presente] — [descrizione] — pag. [X]
-TECOM → [codice catalogo] — [codice DUE EFFE se presente] — [descrizione] — pag. [X]
-REXNORD → [codice catalogo] — [codice DUE EFFE se presente] — [descrizione] — pag. [X]
+REXNORD  → [codice catalogo] — [codice DUE EFFE se presente] — [descrizione] — pag. [X]
+TECOM    → [codice catalogo] — [codice DUE EFFE se presente] — [descrizione] — pag. [X]
+MOVEX    → [codice catalogo] — [codice DUE EFFE se presente] — [descrizione] — pag. [X]
 
-CONSIGLIO: [quale preferire e perché — considera anche disponibilità magazzino DUE EFFE]
+FONTE CONVERSIONE: [Tabella ufficiale Tecom / PDF catalogo / deduzione]
+CONSIGLIO: [quale preferire e perché]
 
-Se non trovi: "Non trovato nel catalogo disponibile."
-Parla sempre in italiano. Sii preciso, veloce, diretto. Non inventare mai.`;
+Se nessun equivalente confermato:
+ARTICOLO: [nome]
+REXNORD  → [codice]
+TECOM    → ⛔ NESSUN EQUIVALENTE — confermato tabella ufficiale Tecom. Famiglia [XXX] non sostituibile.
+CONSIGLIO: Restare su Rexnord. Non proporre alternative Tecom su questa famiglia.
+
+════════════════════════════════
+ERRORI DA NON RIPETERE MAI
+════════════════════════════════
+❌ Dichiarare "non trovato nel listino" come risposta finale — il listino è incompleto
+❌ Fermarsi se il codice DUE EFFE non c'è — cercare sempre nel catalogo PDF
+❌ Confondere Part. 376 Movex (morsetto a croce) con anello di fermo quadro → usare Part. 217
+❌ Testate appoggio: selezionare per footprint piastra, non solo diametro tubo
+❌ Morsetti Rexnord S0237/63151: vale sia con che senza perno
+❌ Supporto orientabile Rexnord S0632/616843 = Tecom 220/82111
+❌ Dichiarare "no equivalente" senza aver consultato la tabella conversioni ufficiale
+❌ Dire che un prodotto 831 ha equivalente Tecom su rinvii/ruote — la tabella dice NO SIMILI
+❌ Inventare codici — mai
+
+Parla sempre in italiano. Sii preciso, veloce, diretto.`;
 
 // ============================================================
 // DATABASE DUE EFFE (4559 codici Zucchetti)
 // ============================================================
-const DB = [{"b":"MOVEX","c":"M01001 10010102","d":"SSE 815-K325 L=82,5"},{"b":"MOVEX","c":"M01001 10010105","d":"CATENA INOX SSE 815 K450 RETTILINEA"},{"b":"MOVEX","c":"M01001 10010106","d":"SSE 815-K600 L=152,4 MM"},{"b":"MOVEX","c":"M01001 10010202","d":"CATENA SS 812 K325"},{"b":"MOVEX","c":"M01001 10010205","d":"CATENA SS 812 K450"},{"b":"MOVEX","c":"M01001 10010206","d":"CATENA SS 812 K600 RETTILINEA"},{"b":"MOVEX","c":"M01001 10010302","d":"SSM 815-K325 HB PINS L=82,5"},{"b":"MOVEX","c":"M0119 11901C","d":"GUIDA LATERALE L=3000"},{"b":"MOVEX","c":"M0119 11901","d":"GUIDA LATERALE L=6000"},{"b":"MOVEX","c":"M0119 11901BC","d":"GUIDA LATERALE L=3000 BLULUB"},{"b":"MOVEX","c":"M0120 12001C","d":"GUIDA CONICA B.INOX L=3000"},{"b":"MOVEX","c":"M0121 12101C","d":"GUIDA CONICA PIATTA L=3000"},{"b":"MOVEX","c":"M0122 12201","d":"GUIDA CONICA L25,4 BIANCO INOX L6000"},{"b":"MOVEX","c":"M0122 12201C","d":"GUIDA CONICA L25,4 BIANCO INOX"},{"b":"MOVEX","c":"M0123 12301","d":"GUIDA CONICA L31,75mm BIANCO INOX"},{"b":"MOVEX","c":"M0123 12301C","d":"GUIDA LATERALE (MT3) 31,7"},{"b":"MOVEX","c":"M0124 12401","d":"GUIDA LATERALE 6MT"},{"b":"MOVEX","c":"M0124 12401C","d":"GUIDA LATERALE 3MT 40 mm"},{"b":"MOVEX","c":"M0124 12401Z-C","d":"GUIDA CONICA BIANCA ZN L=3000"},{"b":"MOVEX","c":"M0124 12402AS-C","d":"GUIDA PE NERO ANTISTATICO 3MT"},{"b":"MOVEX","c":"M0124 12453","d":"GUIDA CONICA BIANCA INOX L=3000 SOLIDA"},{"b":"MOVEX","c":"M0124 12463","d":"GUIDA CONICA BIANCA INOX L=3000"},{"b":"MOVEX","c":"M0125 12501C","d":"GUIDA CONICA L 31.75 BIANCO INOX"},{"b":"MOVEX","c":"M0133 13301","d":"PROFILO VERDE+INOX L=6000"},{"b":"MOVEX","c":"M0133 13301C","d":"PROFILO VERDE+INOX304 L=3000"},{"b":"MOVEX","c":"M0133 13302C","d":"PROFILO VERDE+INOX430 L=3000"},{"b":"MOVEX","c":"M0133 13303C","d":"PROFILO NERO+INOX304 L=3000"},{"b":"MOVEX","c":"M0133 13305BC","d":"PROFILO ASSEMBLATO CLIP-ON BluLub + INOX"},{"b":"MOVEX","c":"M0135 13501C","d":"GUIDA LATERALE H.78"},{"b":"MOVEX","c":"M0112 11201C","d":"PROFILO AISI304  M 40X8"},{"b":"MOVEX","c":"M0112 11201","d":"PROFILO INOX 29X19 AISI 304 L=6m"},{"b":"MOVEX","c":"M0191 19101C","d":"GUIDA CONICA L TI-WHITE INOX L=3000"},{"b":"MOVEX","c":"M0201 20101","d":"RULLINO D.50X82.5 F16"},{"b":"MOVEX","c":"M0201 20103","d":"RULLINO D.50X82.5 F20"},{"b":"MOVEX","c":"M0202 20201","d":"RULLO DI RITORNO D.60 D.I.16"},{"b":"MOVEX","c":"M0202 20253","d":"RULLO DI RITORNO D.60 F.20 L.41"},{"b":"MOVEX","c":"M0203 20303","d":"RULLINO RIT.GOMM.D57 F20"},{"b":"MOVEX","c":"M0203 20313","d":"RULLINO RIT.GOMM.D57 F20 L=84,5"},{"b":"MOVEX","c":"M0217 21701","d":"COLLARE DI RIFERIM. DF25X25"},{"b":"MOVEX","c":"M0217 21702","d":"COLLARE DI RIFERIMENTO 30X30"},{"b":"MOVEX","c":"M0217 21703","d":"COLLARE DI RIFERIMENTO 40X40"},{"b":"MOVEX","c":"M0217 21704","d":"COLLARE DI RIFERIMENTO 50X50"},{"b":"MOVEX","c":"M0301 30101","d":"SUPPORTO CON MANOPOLA DF12"},{"b":"MOVEX","c":"M0301 30102","d":"SUPPORTO LATERALE H66/195 D.16"},{"b":"MOVEX","c":"M0302 30201","d":"SUPPORTO LAT. CON VOLANTINO ALTO DF12"},{"b":"MOVEX","c":"M0305 30501","d":"SUPPORTO LATERALE DF12"},{"b":"MOVEX","c":"M0305 30502","d":"SUPPORTO LATERALE DF16"},{"b":"MOVEX","c":"M0307 30701","d":"SUPPORTO ORIENTABILE D12"},{"b":"MOVEX","c":"M0313 31301","d":"TESTINA ORIENTABILE D.12"},{"b":"MOVEX","c":"M0313 31302","d":"TESTINA ORIENTABILE D.16"},{"b":"MOVEX","c":"M0314 31401","d":"TESTINA ORIENT. INOX O̸12"},{"b":"MOVEX","c":"M0314 31402","d":"TESTINA ORIENT. INOX O̸16"},{"b":"MOVEX","c":"M0324 32401","d":"MORSETTO X GUIDA CONICA L26"},{"b":"MOVEX","c":"M0325 32501","d":"MORSETTO X GUIDA CONICA L59 NERO"},{"b":"MOVEX","c":"M0326 32601","d":"MORSETTO X GUIDA CONICA L25 NERO"},{"b":"MOVEX","c":"M0327 32701","d":"MORSETTO DOPPIO X GUIDA CONICA"},{"b":"MOVEX","c":"M0328 32801","d":"MORSETTO INOX GUIDA CONICA"},{"b":"MOVEX","c":"M0330 33001","d":"MORSETTO INOX PER GUIDA CONICA M8X15"},{"b":"MOVEX","c":"M0331 33101","d":"MORSETTO INOX SENZA PERNO"},{"b":"MOVEX","c":"M0331 33102","d":"MORSETTO INOX D.12"},{"b":"MOVEX","c":"M0353 35301","d":"GUIDA LATERALE X ACCUMOLO"},{"b":"MOVEX","c":"M0354 35401","d":"GUIDA LAT.RULLI ACCUMULO L1MT"},{"b":"MOVEX","c":"M0355 35501","d":"GUIDA A 3 RULLINI INOX"},{"b":"MOVEX","c":"M0358 35802","d":"GUIDA LATERALE A RULLI BLU L=3000"},{"b":"MOVEX","c":"M0358 35804","d":"GUIDA LATERALE A RULLI L3000"},{"b":"MOVEX","c":"M0359 35902","d":"GUIDA A RULLINI VIOLA DOPPIA"},{"b":"MOVEX","c":"M0360 36002","d":"GUIDA PERLE INTERMEDIA L=3000"},{"b":"MOVEX","c":"M0361 36102","d":"GUIDA A RULLI INTERMEDIA L=3000"},{"b":"MOVEX","c":"M0390 39001","d":"MORSETTO GUIDE CONICHE L.50MM"},{"b":"MOVEX","c":"M0391 39101H","d":"MORSETTO A CROCE DF12"},{"b":"MOVEX","c":"M0392 39201","d":"MORSETTO CONNESSIONE 2 PZ"},{"b":"MOVEX","c":"M0401 40101","d":"BASE 2 BRACCIA D.48,3"},{"b":"MOVEX","c":"M0402 40201","d":"BASE SOST.A2B. 48,3X48,3 con giunto"},{"b":"MOVEX","c":"M0404 40401","d":"BASE DI SOST.A 3 BRA."},{"b":"MOVEX","c":"M0407 40701","d":"TESTATA DI SOSTEGNO LAT."},{"b":"MOVEX","c":"M0408 40801","d":"TESTATA DI SOSTEGNO"},{"b":"MOVEX","c":"M0410 41001","d":"TESTATA APPOGGIO D.48,3"},{"b":"MOVEX","c":"M0410 41002","d":"TESTATA APPOGGIO D.60,3"},{"b":"MOVEX","c":"M0411 41101","d":"TESTATA APPOGGIO D.48,3"},{"b":"MOVEX","c":"M0413 41301","d":"GIUNTO D.48.3"},{"b":"MOVEX","c":"M0414 41401","d":"GIUNTO COLLEGAMENTO SS O̸48.3"},{"b":"MOVEX","c":"M0415 41501","d":"TAPPO TONDO 48,3 M16 SP1,5"},{"b":"MOVEX","c":"M0416 41605","d":"TAPPO QUADRO 40X40 SP.1,5 M12"},{"b":"MOVEX","c":"M0416 41606","d":"TAPPO 40X40 SP1,5 M16"},{"b":"MOVEX","c":"M0416 41635","d":"TAPPO 40X40 M10 SP2"},{"b":"MOVEX","c":"M0416 41636","d":"TAPPO 40X40 M12 SP2"},{"b":"MOVEX","c":"M0417 41701","d":"GIUNTO DI COLLEGAMENTO D.48,3"},{"b":"MOVEX","c":"M0417 41702","d":"GIUNTO DI COLLEGAMENTO D.50,9"},{"b":"MOVEX","c":"M0418 41801","d":"GIUNTO 2 VIE NERO"},{"b":"MOVEX","c":"M0418 41803","d":"GIUNTO 3 VIE NERO"},{"b":"MOVEX","c":"M0419 41901","d":"TAPPO TONDO 20 SP1,5 M8"},{"b":"MOVEX","c":"M0419 41913","d":"TAPPO ESPANSIONE TONDO 38 SP1,5 M8"},{"b":"MOVEX","c":"M0420 42005","d":"TAPPO 40X40 SP2 M8"},{"b":"MOVEX","c":"M0420 42006","d":"TAPPO 40X40 SP2 M10"},{"b":"MOVEX","c":"M0425 42501","d":"MORSETTO A COLLARE O̸48,3"},{"b":"MOVEX","c":"M0426 42601","d":"TESTATA APPOGGIO D.48,3 INOX"},{"b":"MOVEX","c":"M0427 42701","d":"SUPPORTO LATERALE df-16 INOX"},{"b":"MOVEX","c":"M0499 49995","d":"SUPPORTO LATERALE df-48,3 INOX"},{"b":"MOVEX","c":"M0221 22104","d":"ANELLO DI FERMO DF. 40"},{"b":"MOVEX","c":"M0221 22101","d":"COLLARE DI RIF.D45 F25"},{"b":"MOVEX","c":"M0215 21501","d":"COLLARE DI RIFERIM.D30DF12"},{"b":"MOVEX","c":"M0215 21504","d":"COLLARE DI RIFERIM. D40 DF20"},{"b":"MOVEX","c":"M0215 21508","d":"COLLARE DI RIFERIM.D65 DF40"},{"b":"REXNORD_S","c":"S035661605","d":"GUIDA CONICA 40MM"},{"b":"REXNORD_S","c":"S036764046M","d":"PROFILO VERDE HMWPE+INOX L=3M"},{"b":"REXNORD_S","c":"S019859161","d":"TESTATA APPOGGIO PICCOLA"},{"b":"REXNORD_S","c":"S0562697861","d":"GIUNTO COLLEGAMENTO"},{"b":"REXNORD_S","c":"S0632616843","d":"SUPPORTO PORTAGUIDE ASOLA 9MM"},{"b":"TECOM_TEC","c":"TEC022082111","d":"SUPPORTO PORTAGUIDE ASOLA LA=9MM (220/82111)"},{"b":"REXNORD_S","c":"S0612692952","d":"ANELLO FERMO QUADRO 40X40"},{"b":"REXNORD_S","c":"S0612615012","d":"ANELLO FERMO TONDO O40 C/LINGUETTA"},{"b":"REXNORD_S","c":"S0612655092","d":"ANELLO FERMO TONDO O40 SENZA LINGUETTA"},{"b":"REXNORD_S","c":"R0132627042","d":"PIEDE M20X120 INOX"},{"b":"REXNORD_S","c":"R0132627062","d":"PIEDE M24X120 INOX"},{"b":"REXNORD_S","c":"R0132627112","d":"PIEDE M16X95 ZN"},{"b":"REXNORD_S","c":"R0133627033","d":"LEV133_M12X90MM_01_SS_PA"},{"b":"TECOM_TEC","c":"TEC035484199","d":"GUIDA LATERALE A PROFILO TONDO L=3000"},{"b":"TECOM_TEC","c":"TEC035484198","d":"GUIDA LATERALE A PROFILO TONDO L=6000"},{"b":"TECOM_TEC","c":"TEC041984804","d":"GUIDA LATERALE (MT6) A PROF. SEMITONDO"},{"b":"TECOM_TEC","c":"TEC042084810","d":"GUIDA LATERALE (MT3) 31,7"},{"b":"TECOM_TEC","c":"TEC046985591","d":"GUIDA LATERALE PIATTA (MT3) 25,4"},{"b":"TECOM_TEC","c":"TEC040584327","d":"MORSETTO PORTAGUIDE BIVALENTE CON PERNO"},{"b":"TECOM_TEC","c":"TEC040484485","d":"MORSETTO PORTAGUIDA DOPPIO"},{"b":"TECOM_TEC","c":"TEC023080684","d":"MORSETTO PORTAGUIDE TRAPEZOIDALI"},{"b":"TECOM_TEC","c":"TEC037683895","d":"ANELLO DI FERMO PER ALBERO QUADRO 40X40"},{"b":"TECOM_TEC","c":"TEC028882559","d":"ANELLO DI FERMO D.40 CON SEDE LINGUETTA"},{"b":"TECOM_TEC","c":"TEC028882562","d":"ANELLO DI FERMO D.16"},{"b":"TECOM_TEC","c":"TEC020080590","d":"BASE A 3 BRACCIA D.48,3"},{"b":"TECOM_TEC","c":"TEC020080591","d":"BASE SOST.3 BRA.D.48,3 INOX"},{"b":"TECOM_TEC","c":"TEC020880764","d":"TESTATA D.60,3"},{"b":"TECOM_TEC","c":"TEC020880767","d":"TESTATA APP.RETT.D.48,3 INOX"},{"b":"TECOM_TEC","c":"TEC021080643","d":"GIUNTO A 3VITI D.48,3 INOX"},{"b":"TECOM_TEC","c":"TEC021180649","d":"TESTATA DI SOSTEGNO D.48,3"},{"b":"TECOM_TEC","c":"TEC030784549","d":"GUIDA LATERALE A RULLINI SFERICI"},{"b":"TECOM_TEC","c":"TEC032583003","d":"GUIDA LATERALE A RULLINI CILINDRICI"},{"b":"TECOM_TEC","c":"TEC034583380","d":"GUIDA LAT. SINGOLA A RULLINI SFERICI"},{"b":"TECOM_TEL","c":"TEL00107002","d":"PIEDE M10X95 ZN O̸40"},{"b":"TECOM_TEL","c":"TEL00107003","d":"PIEDE M10X95 INOX O̸40"},{"b":"TECOM_TEL","c":"TEL00187054","d":"PIEDE SNODATO PART. 18 PA D.60"},{"b":"TECOM_TEL","c":"TEL00257088","d":"PIEDE SNODATO PART.25 PA D.80"},{"b":"TECOM_TEB","c":"TEB000080069","d":"UCFL D.35 PA CHIUSO"},{"b":"TECOM_TEB","c":"TEB000080072","d":"UCFL 206 APERTO"},{"b":"TECOM_TEB","c":"TEB000082652","d":"MUCF207 QUADRO D.35 SOLID"}];
+const DB = [{"b":"MOVEX","c":"M01001 10010102","d":"SSE 815-K325 L=82,5"},{"b":"MOVEX","c":"M01001 10010105","d":"CATENA INOX SSE 815 K450 RETTILINEA"},{"b":"MOVEX","c":"M01001 10010106","d":"SSE 815-K600 L=152,4 MM"},{"b":"MOVEX","c":"M01001 10010202","d":"CATENA SS 812 K325"},{"b":"MOVEX","c":"M01001 10010205","d":"CATENA SS 812 K450"},{"b":"MOVEX","c":"M01001 10010206","d":"CATENA SS 812 K600 RETTILINEA"},{"b":"MOVEX","c":"M01001 10010302","d":"SSM 815-K325 HB PINS L=82,5"},{"b":"MOVEX","c":"M0119 11901C","d":"GUIDA LATERALE L=3000"},{"b":"MOVEX","c":"M0119 11901","d":"GUIDA LATERALE L=6000"},{"b":"MOVEX","c":"M0119 11901BC","d":"GUIDA LATERALE L=3000 BLULUB"},{"b":"MOVEX","c":"M0120 12001C","d":"GUIDA CONICA B.INOX L=3000"},{"b":"MOVEX","c":"M0121 12101C","d":"GUIDA CONICA PIATTA L=3000"},{"b":"MOVEX","c":"M0122 12201","d":"GUIDA CONICA L25,4 BIANCO INOX L6000"},{"b":"MOVEX","c":"M0122 12201C","d":"GUIDA CONICA L25,4 BIANCO INOX"},{"b":"MOVEX","c":"M0123 12301","d":"GUIDA CONICA L31,75mm BIANCO INOX"},{"b":"MOVEX","c":"M0123 12301C","d":"GUIDA LATERALE (MT3) 31,7"},{"b":"MOVEX","c":"M0124 12401","d":"GUIDA LATERALE 6MT"},{"b":"MOVEX","c":"M0124 12401C","d":"GUIDA LATERALE 3MT 40 mm"},{"b":"MOVEX","c":"M0124 12401Z-C","d":"GUIDA CONICA BIANCA ZN L=3000"},{"b":"MOVEX","c":"M0124 12402AS-C","d":"GUIDA PE NERO ANTISTATICO 3MT"},{"b":"MOVEX","c":"M0124 12453","d":"GUIDA CONICA BIANCA INOX L=3000 SOLIDA"},{"b":"MOVEX","c":"M0124 12463","d":"GUIDA CONICA BIANCA INOX L=3000"},{"b":"MOVEX","c":"M0125 12501C","d":"GUIDA CONICA L 31.75 BIANCO INOX"},{"b":"MOVEX","c":"M0133 13301","d":"PROFILO VERDE+INOX L=6000"},{"b":"MOVEX","c":"M0133 13301C","d":"PROFILO VERDE+INOX304 L=3000"},{"b":"MOVEX","c":"M0133 13302C","d":"PROFILO VERDE+INOX430 L=3000"},{"b":"MOVEX","c":"M0133 13303C","d":"PROFILO NERO+INOX304 L=3000"},{"b":"MOVEX","c":"M0133 13305BC","d":"PROFILO ASSEMBLATO CLIP-ON BluLub + INOX"},{"b":"MOVEX","c":"M0135 13501C","d":"GUIDA LATERALE H.78"},{"b":"MOVEX","c":"M0112 11201C","d":"PROFILO AISI304  M 40X8"},{"b":"MOVEX","c":"M0112 11201","d":"PROFILO INOX 29X19 AISI 304 L=6m"},{"b":"MOVEX","c":"M0191 19101C","d":"GUIDA CONICA L TI-WHITE INOX L=3000"},{"b":"MOVEX","c":"M0201 20101","d":"RULLINO D.50X82.5 F16"},{"b":"MOVEX","c":"M0201 20103","d":"RULLINO D.50X82.5 F20"},{"b":"MOVEX","c":"M0202 20201","d":"RULLO DI RITORNO D.60 D.I.16"},{"b":"MOVEX","c":"M0202 20253","d":"RULLO DI RITORNO D.60 F.20 L.41"},{"b":"MOVEX","c":"M0203 20303","d":"RULLINO RIT.GOMM.D57 F20"},{"b":"MOVEX","c":"M0203 20313","d":"RULLINO RIT.GOMM.D57 F20 L=84,5"},{"b":"MOVEX","c":"M0217 21701","d":"COLLARE DI RIFERIM. DF25X25"},{"b":"MOVEX","c":"M0217 21702","d":"COLLARE DI RIFERIMENTO 30X30"},{"b":"MOVEX","c":"M0217 21703","d":"COLLARE DI RIFERIMENTO 40X40"},{"b":"MOVEX","c":"M0217 21704","d":"COLLARE DI RIFERIMENTO 50X50"},{"b":"MOVEX","c":"M0301 30101","d":"SUPPORTO CON MANOPOLA DF12"},{"b":"MOVEX","c":"M0301 30102","d":"SUPPORTO LATERALE H66/195 D.16"},{"b":"MOVEX","c":"M0302 30201","d":"SUPPORTO LAT. CON VOLANTINO ALTO DF12"},{"b":"MOVEX","c":"M0305 30501","d":"SUPPORTO LATERALE DF12"},{"b":"MOVEX","c":"M0305 30502","d":"SUPPORTO LATERALE DF16"},{"b":"MOVEX","c":"M0307 30701","d":"SUPPORTO ORIENTABILE D12"},{"b":"MOVEX","c":"M0313 31301","d":"TESTINA ORIENTABILE D.12"},{"b":"MOVEX","c":"M0313 31302","d":"TESTINA ORIENTABILE D.16"},{"b":"MOVEX","c":"M0314 31401","d":"TESTINA ORIENT. INOX O12"},{"b":"MOVEX","c":"M0314 31402","d":"TESTINA ORIENT. INOX O16"},{"b":"MOVEX","c":"M0324 32401","d":"MORSETTO X GUIDA CONICA L26"},{"b":"MOVEX","c":"M0325 32501","d":"MORSETTO X GUIDA CONICA L59 NERO"},{"b":"MOVEX","c":"M0326 32601","d":"MORSETTO X GUIDA CONICA L25 NERO"},{"b":"MOVEX","c":"M0327 32701","d":"MORSETTO DOPPIO X GUIDA CONICA"},{"b":"MOVEX","c":"M0328 32801","d":"MORSETTO INOX GUIDA CONICA"},{"b":"MOVEX","c":"M0330 33001","d":"MORSETTO INOX PER GUIDA CONICA M8X15"},{"b":"MOVEX","c":"M0331 33101","d":"MORSETTO INOX SENZA PERNO"},{"b":"MOVEX","c":"M0331 33102","d":"MORSETTO INOX D.12"},{"b":"MOVEX","c":"M0353 35301","d":"GUIDA LATERALE X ACCUMOLO"},{"b":"MOVEX","c":"M0354 35401","d":"GUIDA LAT.RULLI ACCUMULO L1MT"},{"b":"MOVEX","c":"M0355 35501","d":"GUIDA A 3 RULLINI INOX"},{"b":"MOVEX","c":"M0358 35802","d":"GUIDA LATERALE A RULLI BLU L=3000"},{"b":"MOVEX","c":"M0358 35804","d":"GUIDA LATERALE A RULLI L3000"},{"b":"MOVEX","c":"M0359 35902","d":"GUIDA A RULLINI VIOLA DOPPIA"},{"b":"MOVEX","c":"M0360 36002","d":"GUIDA PERLE INTERMEDIA L=3000"},{"b":"MOVEX","c":"M0361 36102","d":"GUIDA A RULLI INTERMEDIA L=3000"},{"b":"MOVEX","c":"M0390 39001","d":"MORSETTO GUIDE CONICHE L.50MM"},{"b":"MOVEX","c":"M0391 39101H","d":"MORSETTO A CROCE DF12"},{"b":"MOVEX","c":"M0392 39201","d":"MORSETTO CONNESSIONE 2 PZ"},{"b":"MOVEX","c":"M0401 40101","d":"BASE 2 BRACCIA D.48,3"},{"b":"MOVEX","c":"M0402 40201","d":"BASE SOST.A2B. 48,3X48,3 con giunto"},{"b":"MOVEX","c":"M0404 40401","d":"BASE DI SOST.A 3 BRA."},{"b":"MOVEX","c":"M0407 40701","d":"TESTATA DI SOSTEGNO LAT."},{"b":"MOVEX","c":"M0408 40801","d":"TESTATA DI SOSTEGNO"},{"b":"MOVEX","c":"M0410 41001","d":"TESTATA APPOGGIO D.48,3"},{"b":"MOVEX","c":"M0410 41002","d":"TESTATA APPOGGIO D.60,3"},{"b":"MOVEX","c":"M0411 41101","d":"TESTATA APPOGGIO D.48,3"},{"b":"MOVEX","c":"M0413 41301","d":"GIUNTO D.48.3"},{"b":"MOVEX","c":"M0414 41401","d":"GIUNTO COLLEGAMENTO SS O48.3"},{"b":"MOVEX","c":"M0415 41501","d":"TAPPO TONDO 48,3 M16 SP1,5"},{"b":"MOVEX","c":"M0416 41605","d":"TAPPO QUADRO 40X40 SP.1,5 M12"},{"b":"MOVEX","c":"M0416 41606","d":"TAPPO 40X40 SP1,5 M16"},{"b":"MOVEX","c":"M0416 41635","d":"TAPPO 40X40 M10 SP2"},{"b":"MOVEX","c":"M0416 41636","d":"TAPPO 40X40 M12 SP2"},{"b":"MOVEX","c":"M0417 41701","d":"GIUNTO DI COLLEGAMENTO D.48,3"},{"b":"MOVEX","c":"M0417 41702","d":"GIUNTO DI COLLEGAMENTO D.50,9"},{"b":"MOVEX","c":"M0418 41801","d":"GIUNTO 2 VIE NERO"},{"b":"MOVEX","c":"M0418 41803","d":"GIUNTO 3 VIE NERO"},{"b":"MOVEX","c":"M0419 41901","d":"TAPPO TONDO 20 SP1,5 M8"},{"b":"MOVEX","c":"M0419 41913","d":"TAPPO ESPANSIONE TONDO 38 SP1,5 M8"},{"b":"MOVEX","c":"M0420 42005","d":"TAPPO 40X40 SP2 M8"},{"b":"MOVEX","c":"M0420 42006","d":"TAPPO 40X40 SP2 M10"},{"b":"MOVEX","c":"M0425 42501","d":"MORSETTO A COLLARE O48,3"},{"b":"MOVEX","c":"M0426 42601","d":"TESTATA APPOGGIO D.48,3 INOX"},{"b":"MOVEX","c":"M0427 42701","d":"SUPPORTO LATERALE df-16 INOX"},{"b":"MOVEX","c":"M0499 49995","d":"SUPPORTO LATERALE df-48,3 INOX"},{"b":"MOVEX","c":"M0221 22104","d":"ANELLO DI FERMO DF. 40"},{"b":"MOVEX","c":"M0221 22101","d":"COLLARE DI RIF.D45 F25"},{"b":"MOVEX","c":"M0215 21501","d":"COLLARE DI RIFERIM.D30DF12"},{"b":"MOVEX","c":"M0215 21504","d":"COLLARE DI RIFERIM. D40 DF20"},{"b":"MOVEX","c":"M0215 21508","d":"COLLARE DI RIFERIM.D65 DF40"},{"b":"REXNORD_S","c":"S035661605","d":"GUIDA CONICA 40MM"},{"b":"REXNORD_S","c":"S036764046M","d":"PROFILO VERDE HMWPE+INOX L=3M"},{"b":"REXNORD_S","c":"S019859161","d":"TESTATA APPOGGIO PICCOLA"},{"b":"REXNORD_S","c":"S0562697861","d":"GIUNTO COLLEGAMENTO"},{"b":"REXNORD_S","c":"S0632616843","d":"SUPPORTO PORTAGUIDE ASOLA 9MM"},{"b":"TECOM_TEC","c":"TEC022082111","d":"SUPPORTO PORTAGUIDE ASOLA LA=9MM (220/82111)"},{"b":"REXNORD_S","c":"S0612692952","d":"ANELLO FERMO QUADRO 40X40"},{"b":"REXNORD_S","c":"S0612615012","d":"ANELLO FERMO TONDO O40 C/LINGUETTA"},{"b":"REXNORD_S","c":"S0612655092","d":"ANELLO FERMO TONDO O40 SENZA LINGUETTA"},{"b":"REXNORD_S","c":"R0132627042","d":"PIEDE M20X120 INOX"},{"b":"REXNORD_S","c":"R0132627062","d":"PIEDE M24X120 INOX"},{"b":"REXNORD_S","c":"R0132627112","d":"PIEDE M16X95 ZN"},{"b":"REXNORD_S","c":"R0133627033","d":"LEV133_M12X90MM_01_SS_PA"},{"b":"TECOM_TEC","c":"TEC035484199","d":"GUIDA LATERALE A PROFILO TONDO L=3000"},{"b":"TECOM_TEC","c":"TEC035484198","d":"GUIDA LATERALE A PROFILO TONDO L=6000"},{"b":"TECOM_TEC","c":"TEC041984804","d":"GUIDA LATERALE (MT6) A PROF. SEMITONDO"},{"b":"TECOM_TEC","c":"TEC042084810","d":"GUIDA LATERALE (MT3) 31,7"},{"b":"TECOM_TEC","c":"TEC046985591","d":"GUIDA LATERALE PIATTA (MT3) 25,4"},{"b":"TECOM_TEC","c":"TEC040584327","d":"MORSETTO PORTAGUIDE BIVALENTE CON PERNO"},{"b":"TECOM_TEC","c":"TEC040484485","d":"MORSETTO PORTAGUIDA DOPPIO"},{"b":"TECOM_TEC","c":"TEC023080684","d":"MORSETTO PORTAGUIDE TRAPEZOIDALI"},{"b":"TECOM_TEC","c":"TEC037683895","d":"ANELLO DI FERMO PER ALBERO QUADRO 40X40"},{"b":"TECOM_TEC","c":"TEC028882559","d":"ANELLO DI FERMO D.40 CON SEDE LINGUETTA"},{"b":"TECOM_TEC","c":"TEC028882562","d":"ANELLO DI FERMO D.16"},{"b":"TECOM_TEC","c":"TEC020080590","d":"BASE A 3 BRACCIA D.48,3"},{"b":"TECOM_TEC","c":"TEC020080591","d":"BASE SOST.3 BRA.D.48,3 INOX"},{"b":"TECOM_TEC","c":"TEC020880764","d":"TESTATA D.60,3"},{"b":"TECOM_TEC","c":"TEC020880767","d":"TESTATA APP.RETT.D.48,3 INOX"},{"b":"TECOM_TEC","c":"TEC021080643","d":"GIUNTO A 3VITI D.48,3 INOX"},{"b":"TECOM_TEC","c":"TEC021180649","d":"TESTATA DI SOSTEGNO D.48,3"},{"b":"TECOM_TEC","c":"TEC030784549","d":"GUIDA LATERALE A RULLINI SFERICI"},{"b":"TECOM_TEC","c":"TEC032583003","d":"GUIDA LATERALE A RULLINI CILINDRICI"},{"b":"TECOM_TEC","c":"TEC034583380","d":"GUIDA LAT. SINGOLA A RULLINI SFERICI"},{"b":"TECOM_TEL","c":"TEL00107002","d":"PIEDE M10X95 ZN O40"},{"b":"TECOM_TEL","c":"TEL00107003","d":"PIEDE M10X95 INOX O40"},{"b":"TECOM_TEL","c":"TEL00187054","d":"PIEDE SNODATO PART. 18 PA D.60"},{"b":"TECOM_TEL","c":"TEL00257088","d":"PIEDE SNODATO PART.25 PA D.80"},{"b":"TECOM_TEB","c":"TEB000080069","d":"UCFL D.35 PA CHIUSO"},{"b":"TECOM_TEB","c":"TEB000080072","d":"UCFL 206 APERTO"},{"b":"TECOM_TEB","c":"TEB000082652","d":"MUCF207 QUADRO D.35 SOLID"}];
 
 // ============================================================
 // LOGIN
@@ -215,7 +266,7 @@ function checkLogin() {
     sessionStorage.setItem('ut_auth','1');
     document.getElementById('loginScreen').style.display = 'none';
     if (!API_KEY) showApiKeyPrompt();
-    else addMessage('marco','✅ Pronto! Ho il sistema completo con i cataloghi Movex 2025, Tecom 2026, Rexnord e 4.500+ codici DUE EFFE. Cosa cerchi?');
+    else addMessage('marco','✅ Pronto! Sistema aggiornato con tabella conversioni Rexnord↔Tecom (1.341 voci). Scrivi un codice o una descrizione.');
   } else {
     document.getElementById('loginError').style.display = 'block';
     document.getElementById('loginInput').value = '';
@@ -243,7 +294,7 @@ function saveApiKey() {
   API_KEY = val;
   localStorage.setItem('marco_api_key', val);
   document.getElementById('apiPrompt')?.remove();
-  addMessage('marco','✅ Pronto! Ho il sistema completo con i cataloghi Movex 2025, Tecom 2026, Rexnord e i codici DUE EFFE. Scrivi un codice o una descrizione.');
+  addMessage('marco','✅ Pronto! Sistema aggiornato con tabella conversioni Rexnord↔Tecom (1.341 voci ufficiali Tecom). Scrivi un codice o una descrizione.');
 }
 
 // ============================================================
@@ -251,7 +302,6 @@ function saveApiKey() {
 // ============================================================
 function searchDB(query) {
   const q = query.toLowerCase().trim();
-  // Estrai la parte numerica pulita (es. da "12401C" tolgo il suffisso)
   const numericPart = q.replace(/[a-z\s\-]/g,'');
   const words = q.split(/\s+/).filter(w => w.length >= 2);
   const results = [];
@@ -261,14 +311,10 @@ function searchDB(query) {
     const d = (item.d || '').toLowerCase();
     let score = 0;
 
-    // Corrispondenza esatta codice DUE EFFE
     if (c === q) { score += 200; }
-    // Codice catalogo contenuto nel codice DUE EFFE (es. "12401c" in "m0124 12401c")
     else if (c.includes(q)) { score += 100; }
-    // Parte numerica contenuta (es. "12401" trova "m0124 12401c")
     else if (numericPart.length >= 4 && c.replace(/\s/g,'').includes(numericPart)) { score += 80; }
 
-    // Ricerca per parole nella descrizione
     for (const w of words) {
       if (w.length < 2) continue;
       if (c.includes(w)) score += 15;
@@ -285,7 +331,7 @@ function formatResults(results) {
     'MOVEX':'Movex','REXNORD_S':'Rexnord','REXNORD_B':'Rexnord',
     'TECOM_TEC':'Tecom','TECOM_TEL':'Tecom','TECOM_TEB':'Tecom'
   };
-  if (results.length === 0) return 'DATABASE DUE EFFE: nessun risultato diretto trovato per questa ricerca.';
+  if (results.length === 0) return 'DATABASE DUE EFFE: nessun risultato diretto nel listino locale per questa ricerca.';
   let txt = `DATABASE DUE EFFE — ${results.length} corrispondenze trovate:\n`;
   for (const r of results) {
     txt += `[${bMap[r.b]||r.b}] ${r.c} — ${r.d}\n`;
@@ -378,7 +424,7 @@ async function sendMessage() {
 
   // Messaggio al modello
   const userMsg = text
-    ? `Richiesta dell'utente: "${text}"\n\n${dbContext}\n\nUsando i dati del database sopra e le tue conoscenze dei cataloghi, fornisci la risposta completa nel formato standard.`
+    ? `Richiesta: "${text}"\n\n${dbContext}\n\nUsando i dati del database sopra e le tue conoscenze dei cataloghi (inclusa la tabella conversioni Rexnord↔Tecom ufficiale Tecom), fornisci la risposta completa nel formato standard con FONTE CONVERSIONE.`
     : 'Analizza questa immagine e identifica il componente industriale. Fornisci i codici di catalogo Movex, Tecom, Rexnord e DUE EFFE se possibile.';
 
   const userContent = buildUserContent(userMsg, files);
@@ -398,7 +444,7 @@ async function sendMessage() {
         'anthropic-dangerous-direct-browser-access':'true'
       },
       body:JSON.stringify({
-        model:'claude-haiku-4-5-20251001',
+        model:'claude-sonnet-4-20250514',
         max_tokens:1500,
         system:SYSTEM_PROMPT,
         messages:conversationHistory
