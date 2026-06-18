@@ -86,3 +86,10 @@
 3. **Guide prodotto** → selezione per: geometria sezione (mm×mm) → materiale PE → spessore profilo metallico (1,5 o 1,9 mm) → lunghezza (3 o 6 m)
 4. **Anelli di fermo** → selezione per: forma foro (tondo/quadro) → diametro/lato → con o senza sede linguetta
 5. **Codici Rexnord** = Part. (es. S0237) + Code (es. 63151) → ordine = "S023763151"
+
+---
+
+224/68182 = 68/7232  [Part.68=tubo quadro, NON 64/80858]
+S0632/616843 = 220/82111  [confermato tabella ufficiale]
+173/54831 = 15/7020 — M10×94mm ZN base Ø50mm  [NON M16]
+
