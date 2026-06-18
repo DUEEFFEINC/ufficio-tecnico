@@ -1,0 +1,189 @@
+# REGOLE DI CROSS-REFERENCE — AGENTE MARCO DUE EFFE
+## Regole operative per trovare equivalenze tra Movex, Tecom e Rexnord
+## Aggiornate: Maggio 2026
+
+---
+
+## REGOLA 0 — PRINCIPIO FONDAMENTALE
+**Non inventare mai codici.** Se non trovi, dichiaralo chiaramente.
+Una corrispondenza è valida solo se confermata dal personale DUE EFFE o trovata nei cataloghi con geometria + materiale + impiego corrispondenti.
+
+---
+
+## REGOLA 1 — SEQUENZA DI ANALISI
+Per ogni codice o descrizione ricevuta, seguire SEMPRE questo ordine:
+
+1. **Identificare la CATEGORIA** dell'articolo (guida prodotto, morsetto, testata, anello di fermo, ecc.)
+2. **Leggere le dimensioni esatte** dal catalogo della marca indicata
+3. **Cercare negli altri cataloghi** per: geometria → materiale → impiego (in questo ordine)
+4. **Verificare nel listino DUE EFFE** per i codici Zucchetti
+5. **Dichiarare se la corrispondenza è esatta o la più vicina disponibile**
+
+---
+
+## REGOLA 2 — GUIDE PRODOTTO / PROFILI GUIDA-CATENA
+
+### Parametri di selezione (in ordine di priorità):
+1. Geometria sezione (larghezza × altezza in mm)
+2. Materiale PE (Ti-White UHMWPE bianco / verde HMWPE / nero / BluLub)
+3. Spessore profilo metallico (1,5 mm o 1,9 mm)
+4. Profilo metallico (inox AISI 304 / inox AISI 430 / alluminio / zincato)
+5. Lunghezza (3 m o 6 m)
+
+### Famiglie Rexnord profili guida-catena:
+- **S0310** → UHMWPE bianco, sezione 25,4×17mm (piccola)
+- **S0356** → UHMWPE bianco, sezione 57,15×21mm (grande)
+- **S0366** → HMWPE nero, sezione larga
+- **S0367** → HMWPE verde, sezione larga ~40mm → equivalente Movex 13301C
+- **S0368** → HMWPE verde, sezione stretta ~29×19mm → equivalente Movex 11201C
+- Codice con "M" finale (es. 64046**M**) = lunghezza in metri (M=3mt, es. 64046M=3m)
+
+### Famiglie Movex guide coniche (larghezza in mm):
+- Part. 120 → 17×17mm
+- Part. 122 → 25,4mm
+- Part. 123 → 31,75mm
+- Part. 124 → 40mm
+- Part. 125 → 31,75mm (variante)
+- Suffisso "C" = L=3m / senza suffisso = L=6m
+- Suffisso "BC" = BluLub / "AC" = antistatica / "B" = BluLub 6m
+
+---
+
+## REGOLA 3 — MORSETTI PORTAGUIDE
+
+### Parametri di selezione (in ordine di priorità):
+1. Tipo di guida supportata (trapezoidale / tonda / rettangolare / semi-tonda)
+2. Sistema di fissaggio (su piatto 25x8 / su piatto 25x6 / su perno / su tubo)
+3. Presenza perno (con perno / senza perno / con dado)
+4. Diametro perno (Dp 12 / 14 / 16 mm)
+5. Materiale (PA nera / PP / acciaio inox)
+
+### ATTENZIONE — Regola speciale perno/senza perno:
+La differenza CON PERNO / SENZA PERNO in Tecom (es. 232 vs 484) NON sempre cambia la Part. Rexnord.
+**Esempio verificato:** Tecom 232/80688 e 484/87040 → entrambi = Rexnord S0237/63151
+
+### Famiglie morsetti principali:
+| Tipo guida | Fissaggio | Tecom | Movex | Rexnord |
+|---|---|---|---|---|
+| Trapezoidale | Piatto 25×8, senza perno | 232 | 325 | S0237 |
+| Trapezoidale | Piatto 25×8, con perno Dp12 | 484 | 325 | S0237 |
+| Tonda | Piatto 25×8 | 231 | — | — |
+| Rettangolare | Piatto 25×8 | 290/291 | — | — |
+
+---
+
+## REGOLA 4 — TESTATE DI APPOGGIO
+
+### Parametri di selezione (in ordine di priorità):
+1. Materiale corpo testata (PA poliammide / acciaio inox)
+2. Diametro tubo (Ø 33,7 / 42,4 / 48,3 / 50,9 / 60,3 mm)
+3. **Footprint piastra** (dimensioni mm × mm) ← PARAMETRO CHIAVE
+4. Tipo bulloneria (inox / zincata)
+
+### Corrispondenze verificate per Ø 48,3 mm:
+| Footprint | Tecom | Movex | Rexnord |
+|---|---|---|---|
+| 70×95 mm (piccola) | 212/80650 | 411/41101 | S0198/59161 |
+| 88×111 mm (grande) | 208/80766 | 410/41001 | S0280/63503 |
+
+> **ERRORE FREQUENTE da evitare:** Non usare solo il diametro tubo per selezionare — esistono più testate per lo stesso Ø con footprint diverso.
+
+---
+
+## REGOLA 5 — GIUNTI DI COLLEGAMENTO
+
+### Parametri di selezione:
+1. Diametro tubo A × diametro tubo B
+2. Materiale (PA / inox)
+3. Angolo (90° / in linea / T)
+
+### Corrispondenze verificate:
+| Descrizione | Tecom | Movex | Rexnord |
+|---|---|---|---|
+| Giunto Ø48,3 × Ø48,3 in linea | 210/80642 | 413/41301 | S0562/697861 |
+
+---
+
+## REGOLA 6 — ANELLI DI FERMO
+
+### Parametri di selezione:
+1. Forma foro (TONDO / QUADRO) ← distinzione fondamentale
+2. Diametro foro (mm) o lato quadro (mm)
+3. Con o senza sede linguetta
+4. Materiale (PA / acciaio inox)
+
+### ATTENZIONE — Nomenclatura diversa tra marche:
+- **Tecom** → Part. 376 = anello foro QUADRO / Part. 288 = anello foro TONDO
+- **Movex** → Part. 217 = "collare di riferimento" foro QUADRO / Part. 221-215 = foro TONDO
+- **Rexnord** → Part. S0612 = sia foro tondo che quadro (varianti diverse)
+
+> **ERRORE FREQUENTE da evitare:** La Part. 376 MOVEX è un MORSETTO A CROCE (funzione completamente diversa). L'anello di fermo quadro Movex è la Part. **217**.
+
+### Corrispondenze verificate:
+| Descrizione | Tecom | Movex | Rexnord |
+|---|---|---|---|
+| Anello fermo quadro 40×40 mm | 376/83895 | 217/**21704** | S0612/692952 |
+| Anello fermo tondo Ø40 c/linguetta | 288/82559 | 221/22104 | S0612/615012 |
+
+---
+
+## REGOLA 7 — CODICI E FORMATI
+
+### Formato codici per ordine:
+- **Movex:** Article-Nr. = codice numerico (es. 12001C, 11901C)
+- **Tecom:** Part.XXX/YYYYY (es. 354/84199, 232/80688)
+- **Rexnord:** Part. SXXXX + Code = stringa unita (es. S021960161, S023763151)
+- **DUE EFFE Zucchetti:** M0XXX per Movex / TEC per Tecom / S0000.../B0000... per Rexnord
+
+### Suffissi Movex guida:
+- **C** = L=3m (bars)
+- senza C = L=6m
+- **BC** = BluLub L=3m
+- **B** = BluLub L=6m (30m coils)
+- **AC** = antistatica L=3m
+- **A** = antistatica L=6m
+- **Z** = profilo zincato
+
+### Suffissi Rexnord:
+- **M** finale nel code = lunghezza in metri (es. 64046M = 3 metri)
+- **N** finale nel code = versione standard (es. 608943N)
+- **UL** prefisso nel code = versione ULF rosso mattone (basso attrito)
+
+---
+
+## REGOLA 8 — QUANDO DICHIARARE "NON TROVATO"
+
+Dichiarare esplicitamente "Non trovato nel catalogo disponibile" quando:
+- L'articolo non esiste nella gamma di quella marca
+- Le dimensioni non corrispondono ad alcun prodotto a catalogo
+- Il catalogo disponibile potrebbe essere incompleto per quella categoria
+
+In questi casi, proporre sempre la corrispondenza più vicina dichiarandola come tale.
+
+---
+
+## REGOLA 9 — LISTINO DUE EFFE (ZUCCHETTI)
+
+Il listino DUE EFFE è la fonte PRIMARIA per i codici interni.
+Controllare SEMPRE il listino dopo aver trovato i codici di catalogo.
+Il listino può contenere corrispondenze già verificate che superano la ricerca per geometria.
+
+Struttura codice DUE EFFE:
+- **M0XXX** = articoli Movex
+- **TEC** = articoli Tecom  
+- **S0000...** = articoli Rexnord serie S
+- **B0000...** = articoli Rexnord serie B
+
+---
+
+## STORICO ERRORI — DA EVITARE
+
+| Errore commesso | Correzione |
+|---|---|
+| Anello fermo quadro Movex → cercato Part. 376 | Cercare Part. **217** (collare di riferimento) |
+| Testate appoggio → selezione solo per Ø tubo | Selezionare anche per **footprint piastra** |
+| Morsetto portaguide con perno → cambiare Part. Rexnord | Rexnord S0237 vale sia con che senza perno |
+| Profilo 11201C → cercato S0310 (solo metallo) | Cercare **S0368** (HMWPE verde + metallo) |
+| Profilo 13301C → cercato S0469 | Cercare **S0367** (HMWPE verde largo + metallo) |
+| Testata 20880766 → proposto S0198 | Corretto è **S0280/63503** (footprint più grande) |
+| Codice Rexnord senza "M" per profili guida-catena | Aggiungere **M** finale per indicare lunghezza metri |

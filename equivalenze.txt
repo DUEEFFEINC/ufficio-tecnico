@@ -1,0 +1,88 @@
+# TABELLA EQUIVALENZE VERIFICATE — DUE EFFE inc.
+## Aggiornata sessione: Maggio 2026 — rev.2
+## Tutte le corrispondenze sono state CONFERMATE dal personale DUE EFFE
+
+---
+
+## GUIDE LATERALI / PROFILI GUIDA PRODOTTO
+
+| Descrizione | Movex | Tecom | Rexnord | Cod. DUE EFFE |
+|---|---|---|---|---|
+| Guida laterale semi-tonda sp.1,5 L=3m | 119 / **11901C** | 317 / **69072** | S0317 / **69072** | M0119 11901C |
+| Guida laterale semi-tonda sp.1,5 L=6m | 119 / **11901** | — | S0317 / **69302** | M0119 11901 |
+| Guida conica 17×17 sp.1,9 L=3m | 120 / **12001C** | 354 / **84199** | S0219 / **60161** | M0120 12001C |
+| Guida conica 25,4mm sp.1,5 L=3m | 122 / **12201C** | — | S0768 / **609083N** | M0122 12201C |
+| Guida conica 31,75mm sp.1,5 L=3m | 123 / **12301C** | — | — | M0123 12301C |
+| Guida conica 40mm sp.1,5 L=3m | 124 / **12401C** | — | — | M0124 12401C |
+| Guida conica "L" con bordo 31,75mm sp.1,5 L=3m | 144 / **14401C** | — | S0766 / **609013N** | M0144 14401C |
+| Guida laterale H=78mm nera su piatto 60×6 L=3m | 135 / **13501C** | — | S0191 / **57131** | M0135 13501C |
+| Profilo guida-catena verde HMWPE+inox L=3m (grande ~40mm) | 133 / **13301C** | 373 / **83733** | S0367 / **64046M** | M0133 13301C |
+| Profilo guida-catena verde HMWPE+inox L=3m (stretto ~29×19mm) | 112 / **11201C** | — | S0368 / **64066** | M0112 11201C |
+
+---
+
+## MORSETTI PORTAGUIDE
+
+| Descrizione | Movex | Tecom | Rexnord | Note |
+|---|---|---|---|---|
+| Morsetto portaguide trapezoidali su piatto 25x8 SENZA perno | 325 / **32501** | 232 / **80688** | S0237 / **63151** | PA nero + inox |
+| Morsetto portaguide trapezoidali su piatto 25x8 CON perno Dp12 | 325 / **32501** | 484 / **87040** | S0237 / **63151** | Stesso morsetto Rexnord! |
+
+> **REGOLA:** La differenza perno/senza perno è gestita a livello Tecom e Movex, NON cambia la Part. Rexnord (sempre S0237/63151).
+
+---
+
+## TESTATE DI APPOGGIO Ø 48,3 mm
+
+| Descrizione | Movex | Tecom | Rexnord | Note |
+|---|---|---|---|---|
+| Testata appoggio PA — footprint 70×95 mm | 411 / **41101** | 212 / **80650** | S0198 / **59161** | Piastra piccola |
+| Testata appoggio PA — footprint 88×111 mm | 410 / **41001** | 208 / **80766** | S0280 / **63503** | Piastra grande |
+
+> **REGOLA:** La chiave di selezione è il FOOTPRINT DELLA PIASTRA, non solo il diametro tubo.
+
+---
+
+## GIUNTI DI COLLEGAMENTO
+
+| Descrizione | Movex | Tecom | Rexnord |
+|---|---|---|---|
+| Giunto collegamento Ø 48,3 × Ø 48,3 mm PA | 413 / **41301** | 210 / **80642** | S0562 / **697861** |
+
+---
+
+## ANELLI DI FERMO
+
+| Descrizione | Movex | Tecom | Rexnord | Note |
+|---|---|---|---|---|
+| Anello di fermo foro QUADRO 40×40 mm | 217 / **21704** | 376 / **83895** | S0612 / **692952** | Movex si chiama "collare di riferimento" Part. 217 |
+| Anello di fermo foro TONDO Ø 40 mm con sede linguetta | — | 288 / **82559** | S0612 / **615012** | — |
+
+> **REGOLA:** Movex usa il termine "collare di riferimento" (Part. 217) per gli anelli con foro quadro. NON cercare nella Part. 376 Movex (che è un morsetto a croce, funzione diversa).
+
+---
+
+## PROFILI GUIDA-CATENA REXNORD — SCHEMA FAMIGLIE
+
+| Part. Rexnord | Materiale PE | Colore | Sezione | Equivalente Movex |
+|---|---|---|---|---|
+| **S0191** | UHMWPE nero | Nero | H=78mm su piatto 60×6 | 135 / **13501C** |
+| **S0310** | UHMWPE bianco | Bianco | 25,4×17 mm | 112 profilo bianco |
+| **S0356** | UHMWPE bianco | Bianco | 57,15×21 mm | 141 / **14101C** |
+| **S0366** | UHMWPE nero/verde | Nero | grande | 133 nero |
+| **S0367** | UHMWPE verde | Verde | largo ~40mm | 133 / **13301C** |
+| **S0368** | UHMWPE verde | Verde | stretto ~29×19mm | 112 / **11201C** |
+| **S0766** | UHMWPE bianco | Bianco | guida-catena MatTop | 122 / **12201C** |
+| **S0768** | UHMWPE bianco | Bianco | 25,4mm variante | 122 / **12201C** |
+
+> **REGOLA:** La lettera "M" finale nel codice Rexnord (es. 64046M) indica la lunghezza in METRI (3M = 3 metri).
+
+---
+
+## NOTE GENERALI CROSS-REFERENCE
+
+1. **Testate appoggio** → selezione per: materiale corpo (PA o inox) → diametro tubo → footprint piastra
+2. **Morsetti portaguide** → selezione per: tipo guida (trapezoidale/tonda/rettangolare) → sistema fissaggio (piatto 25x8, perno, tubo) → diametro perno
+3. **Guide prodotto** → selezione per: geometria sezione (mm×mm) → materiale PE → spessore profilo metallico (1,5 o 1,9 mm) → lunghezza (3 o 6 m)
+4. **Anelli di fermo** → selezione per: forma foro (tondo/quadro) → diametro/lato → con o senza sede linguetta
+5. **Codici Rexnord** = Part. (es. S0237) + Code (es. 63151) → ordine = "S023763151"
