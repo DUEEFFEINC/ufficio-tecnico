@@ -1,0 +1,14 @@
+{
+  "functions": {
+    "api/marco.js": {
+      "maxDuration": 60,
+      "memory": 1024
+    }
+  },
+  "routes": [
+    {
+      "src": "/api/marco",
+      "dest": "/api/marco.js"
+    }
+  ]
+}
