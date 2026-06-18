@@ -93,3 +93,7 @@
 S0632/616843 = 220/82111  [confermato tabella ufficiale]
 173/54831 = 15/7020 — M10×94mm ZN base Ø50mm  [NON M16]
 
+# NOTE GAMMA PIEDINI MOVEX
+Movex PRODUCE piedini regolabili (serie P400, P400R, C500, C500-Heavy, C500-Split)
+Filetto minimo disponibile: M12
+Per M8 e M10: Movex non copre — usare Tecom o Rexnord
