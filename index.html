@@ -83,6 +83,12 @@
   .api-banner{background:#fff8e1;border:1px solid #ffc107;border-radius:10px;padding:14px 18px;margin:16px auto;max-width:500px;text-align:center;font-size:13px;color:#7a5c00}
   .api-banner input{width:100%;margin-top:8px;padding:8px 12px;border:1px solid #ffc107;border-radius:8px;font-size:14px;font-family:inherit;outline:none}
   .api-banner button{margin-top:7px;background:var(--verde);color:white;border:none;border-radius:8px;padding:7px 18px;font-size:13px;cursor:pointer;font-family:inherit}
+  .btn-nuova{background:var(--verde-pale);border:1.5px solid var(--verde-light);color:var(--verde-dark);border-radius:var(--radius);padding:7px 14px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:6px;transition:all .2s}
+  .btn-nuova:hover{background:var(--verde-light);color:white}
+  .btn-copia{background:none;border:1px solid var(--grigio-border);border-radius:8px;padding:4px 10px;font-size:11px;color:var(--grigio-testo);cursor:pointer;font-family:inherit;margin-top:6px;display:inline-flex;align-items:center;gap:4px;transition:all .2s}
+  .btn-copia:hover{background:var(--verde-pale);border-color:var(--verde-light);color:var(--verde)}
+  .btn-copia.copiato{background:var(--verde-pale);border-color:var(--verde-light);color:var(--verde)}
+  .marco-actions{display:flex;justify-content:flex-start;padding-left:44px;margin-top:-6px}
 </style>
 </head>
 <body>
@@ -112,7 +118,10 @@
       <div class="header-sub">Tecom · Movex · Rexnord · DUE EFFE</div>
     </div>
   </div>
+  <div style="display:flex;align-items:center;gap:12px">
+  <button class="btn-nuova" onclick="nuovaRicerca()">🔄 Nuova ricerca</button>
   <div><span class="status-dot"></span><span style="font-size:12px;opacity:.8">Online</span></div>
+</div>
 </header>
 
 <div class="chat-container" id="chat">
@@ -6810,7 +6819,11 @@ function addMessage(role, text, imageData) {
   const av = role==='marco'
     ? '<div class="avatar marco-av">M</div>'
     : '<div class="avatar user-av">TU</div>';
-  wrap.innerHTML = `${av}<div class="bubble">${escaped}${extra}</div>`;
+  if (role === 'marco') {
+    wrap.innerHTML = `${av}<div style="display:flex;flex-direction:column"><div class="bubble" id="bubble-${Date.now()}">${escaped}${extra}</div><div class="marco-actions"><button class="btn-copia" onclick="copiaRisposta(this)">📋 Copia</button></div></div>`;
+  } else {
+    wrap.innerHTML = `${av}<div class="bubble">${escaped}${extra}</div>`;
+  }
   chat.appendChild(wrap);
   chat.scrollTop = chat.scrollHeight;
 }
@@ -6896,6 +6909,58 @@ async function sendMessage() {
   isLoading=false;
   document.getElementById('sendBtn').disabled=false;
   document.getElementById('userInput').focus();
+}
+
+function nuovaRicerca() {
+  const chat = document.getElementById('chat');
+  chat.innerHTML = '';
+  conversationHistory = [];
+  pendingFiles = [];
+  renderAttachments();
+  // Mostra welcome screen
+  const welcome = document.createElement('div');
+  welcome.className = 'welcome';
+  welcome.id = 'welcome';
+  welcome.innerHTML = `
+    <div class="welcome-icon"><img src="${document.querySelector('header img')?.src || ''}" style="width:68px;height:68px;border-radius:12px;object-fit:contain;display:block;"></div>
+    <h2>Nuova ricerca</h2>
+    <p>Scrivi un codice articolo, una descrizione o allega una foto.</p>
+    <div class="chips">
+      <button class="chip" onclick="sendChip(this)">🔢 Cerca per codice</button>
+      <button class="chip" onclick="sendChip(this)">📝 Cerca per descrizione</button>
+      <button class="chip" onclick="sendChip(this)">📷 Allego foto del pezzo</button>
+      <button class="chip" onclick="sendChip(this)">🔄 Trova equivalenti</button>
+    </div>
+    <div class="brands-bar">
+      <span class="brand-badge">TECOM</span>
+      <span class="brand-badge">MOVEX</span>
+      <span class="brand-badge">REXNORD</span>
+    </div>`;
+  chat.appendChild(welcome);
+  document.getElementById('userInput').focus();
+}
+
+function copiaRisposta(btn) {
+  const bubble = btn.closest('div[style]').querySelector('.bubble');
+  const testo = bubble ? bubble.innerText : '';
+  navigator.clipboard.writeText(testo).then(() => {
+    btn.textContent = '✅ Copiato!';
+    btn.classList.add('copiato');
+    setTimeout(() => {
+      btn.textContent = '📋 Copia';
+      btn.classList.remove('copiato');
+    }, 2000);
+  }).catch(() => {
+    // Fallback
+    const ta = document.createElement('textarea');
+    ta.value = testo;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    btn.textContent = '✅ Copiato!';
+    setTimeout(() => { btn.textContent = '📋 Copia'; }, 2000);
+  });
 }
 
 function buildUserContent(text, files) {
