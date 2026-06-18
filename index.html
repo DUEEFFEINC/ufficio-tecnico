@@ -86,9 +86,14 @@
     <div class="login-logo">🔧</div>
     <h2>Ufficio Tecnico</h2>
     <p>DUE EFFE inc. — Canelli (AT)</p>
-    <input type="password" class="login-input" id="loginInput" placeholder="Codice accesso" onkeydown="if(event.key==='Enter')checkLogin()" autocomplete="off">
+    <input type="password" class="login-input" id="loginInput" placeholder="Codice accesso" onkeydown="if(event.key==='Enter')checkLogin()" autocomplete="current-password">
+    <input type="password" class="login-input" id="apiKeyLogin" placeholder="API Key Anthropic (sk-ant-...)" onkeydown="if(event.key==='Enter')checkLogin()" autocomplete="off" style="margin-top:10px;letter-spacing:0;font-size:13px;">
+    <div style="display:flex;align-items:center;gap:8px;margin-top:12px;justify-content:center;">
+      <input type="checkbox" id="ricordami" style="width:16px;height:16px;cursor:pointer;">
+      <label for="ricordami" style="font-size:13px;color:#666;cursor:pointer;">Ricordami su questo dispositivo</label>
+    </div>
     <button class="login-btn" onclick="checkLogin()">Accedi</button>
-    <div class="login-error" id="loginError">Codice non corretto</div>
+    <div class="login-error" id="loginError">Codice non corretto — verifica anche la API key</div>
     <div class="login-footer">Tecom · Movex · Rexnord</div>
   </div>
 </div>
@@ -6644,20 +6649,49 @@ const DB = [{"b":"MOVEX","c":"M01001 10010102","d":"SSE 815-K325 L=82,5"},{"b":"
 // LOGIN
 // ============================================================
 function checkLogin() {
-  const val = document.getElementById('loginInput').value;
-  if (val === ACCESS_CODE) {
-    sessionStorage.setItem('ut_auth','1');
-    document.getElementById('loginScreen').style.display = 'none';
-    if (!API_KEY) showApiKeyPrompt();
-    else addMessage('marco','✅ Pronto! Ho il sistema completo con i cataloghi Movex 2025, Tecom 2026, Rexnord e 4.500+ codici DUE EFFE. Cosa cerchi?');
-  } else {
+  const pwd = document.getElementById('loginInput').value;
+  const apiK = document.getElementById('apiKeyLogin').value.trim();
+  const ricorda = document.getElementById('ricordami').checked;
+  
+  if (pwd !== ACCESS_CODE) {
     document.getElementById('loginError').style.display = 'block';
     document.getElementById('loginInput').value = '';
+    return;
   }
-}
-if (sessionStorage.getItem('ut_auth') === '1') {
+  
+  // API key: usa quella inserita o quella salvata
+  const keyDaUsare = apiK || API_KEY;
+  if (!keyDaUsare || !keyDaUsare.startsWith('sk-')) {
+    document.getElementById('loginError').textContent = 'Inserisci una API key valida (sk-ant-...)';
+    document.getElementById('loginError').style.display = 'block';
+    return;
+  }
+  
+  API_KEY = keyDaUsare;
+  
+  if (ricorda) {
+    localStorage.setItem('marco_api_key', API_KEY);
+    localStorage.setItem('ut_auth_saved', '1');
+  } else {
+    sessionStorage.setItem('ut_auth','1');
+  }
+  
   document.getElementById('loginScreen').style.display = 'none';
-  if (!API_KEY) showApiKeyPrompt();
+  addMessage('marco','✅ Pronto! Ho il sistema completo con i cataloghi Movex 2025, Tecom 2026, Rexnord e 4.500+ codici DUE EFFE. Cosa cerchi?');
+}
+
+// Auto-login se salvato
+if (localStorage.getItem('ut_auth_saved') === '1' && localStorage.getItem('marco_api_key')) {
+  API_KEY = localStorage.getItem('marco_api_key');
+  document.getElementById('loginScreen').style.display = 'none';
+} else if (sessionStorage.getItem('ut_auth') === '1' && API_KEY) {
+  document.getElementById('loginScreen').style.display = 'none';
+} else {
+  // Pre-compila API key se salvata
+  if (API_KEY) {
+    document.getElementById('apiKeyLogin').value = API_KEY;
+    document.getElementById('ricordami').checked = true;
+  }
 }
 
 function showApiKeyPrompt() {
@@ -6828,19 +6862,12 @@ async function sendMessage() {
   showTyping();
 
   try {
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
+    const response = await fetch('/api/marco', {
       method:'POST',
-      headers:{
-        'Content-Type':'application/json',
-        'x-api-key':API_KEY,
-        'anthropic-version':'2023-06-01',
-        'anthropic-dangerous-direct-browser-access':'true'
-      },
+      headers:{'Content-Type':'application/json'},
       body:JSON.stringify({
-        model:'claude-sonnet-4-6',
-        max_tokens:1500,
-        system:SYSTEM_PROMPT,
-        messages:conversationHistory
+        messages:conversationHistory,
+        apiKey:API_KEY
       })
     });
 
