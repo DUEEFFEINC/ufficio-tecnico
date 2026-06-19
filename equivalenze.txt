@@ -103,3 +103,5 @@ Per M8 e M10: Movex non copre — usare Tecom o Rexnord
 S0237/63151 = Movex 325/32501 = M0325 32501 (MORSETTO X GUIDA CONICA L59 NERO)
 Tecom 232/80688 (senza perno) — cod. DUE EFFE non presente su Zucchetti
 Tecom 484/87040 (con perno Dp12) — cod. DUE EFFE non presente su Zucchetti
+
+Elesa LV.A-100-24-AS-M16x158 → Tecom TEL00387115 (PIEDE D.100 M16X165) — equivalente verificato DUE EFFE
