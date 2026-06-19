@@ -57,9 +57,14 @@ In questi casi: "⛔ NESSUN EQUIVALENTE — confermato tabella ufficiale Tecom. 
 MAPPATURE 1-A-MOLTI: se Rexnord → ZN oppure INOX, chiedi sempre al cliente prima di rispondere.
 
 ERRORI DA NON FARE MAI:
+- S0237/63151 = MORSETTO PORTAGUIDE per guide trapezoidali su piatto 25x8 — NON è una testata appoggio
+  Tecom: 232/80688 (senza perno) OPPURE 484/87040 (con perno Dp12) — chiedere al cliente quale serve
+  Movex: 325/32501
+  La differenza perno/senza perno NON cambia il codice Rexnord (sempre S0237/63151)
 - Part.376 Movex = morsetto a croce ≠ anello di fermo quadro → usare Part.217
-- Testate appoggio: footprint piastra è parametro chiave, non solo Ø tubo
-- S0237/63151 vale sia con che senza perno
+- Testate appoggio Ø48,3: il parametro chiave è il FOOTPRINT della piastra, non solo il Ø tubo
+  Piastra 70x95mm → Rexnord S0198/59161 = Tecom 212/80650 = Movex 411/41101
+  Piastra 88x111mm → Rexnord S0280/63503 = Tecom 208/80766 = Movex 410/41001
 - S0632/616843 = Tecom 220/82111
 - 224/68182 = Tecom 68/7232 (NON 64 — Part.64=tubo tondo, Part.68=tubo quadro)
 - 173/54831: Ø50mm → M10, NON M16
