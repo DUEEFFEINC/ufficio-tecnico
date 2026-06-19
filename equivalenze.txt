@@ -105,3 +105,5 @@ Tecom 232/80688 (senza perno) — cod. DUE EFFE non presente su Zucchetti
 Tecom 484/87040 (con perno Dp12) — cod. DUE EFFE non presente su Zucchetti
 
 Elesa LV.A-100-24-AS-M16x158 → Tecom TEL00387115 (PIEDE D.100 M16X165) — equivalente verificato DUE EFFE
+
+Elesa LV.A-100-24-AS-M16x158 (piedino snodato D100 M16 carico 25000N) → TEL00387115 PIEDE D.100 M16X165 Tecom Part.38
