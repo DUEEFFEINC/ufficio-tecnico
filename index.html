@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="/logo.png">
+<link rel="apple-touch-icon" href="/logo.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Marco UT">
@@ -266,8 +268,8 @@ async function sendMessage() {
   input.value=''; input.style.height='auto';
   pendingFiles=[]; renderAttachments();
   const imageFile = files.find(f=>f.type.startsWith('image/'));
-  addMessage('user', text||('foto allegata'), imageFile?.data);
-  const userContent = buildUserContent(text || 'Analizza questa immagine e identifica il componente industriale. Fornisci codici Movex, Tecom, Rexnord e DUE EFFE.', files);
+  addMessage('user', text||'foto allegata', imageFile?.data);
+  const userContent = buildUserContent(text || 'Analizza questa immagine e identifica il componente industriale.', files);
   conversationHistory.push({role:'user', content:userContent});
   isLoading=true;
   document.getElementById('sendBtn').disabled=true;
