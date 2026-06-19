@@ -165,12 +165,10 @@ let conversationHistory = [];
 let pendingFiles = [];
 let isLoading = false;
 
-// Controlla se c'e' sessione salvata valida
 function inizializza() {
   const savedKey = localStorage.getItem('marco_api_key');
   const savedAuth = localStorage.getItem('ut_auth_saved');
   const sessionAuth = sessionStorage.getItem('ut_auth');
-
   if (savedAuth === '1' && savedKey && savedKey.startsWith('sk-')) {
     API_KEY = savedKey;
     document.getElementById('loginScreen').style.display = 'none';
@@ -181,11 +179,9 @@ function inizializza() {
     document.getElementById('loginScreen').style.display = 'none';
     return;
   }
-  // Mostra login — pre-compila API key se presente ma auth scaduta
   document.getElementById('loginScreen').style.display = 'flex';
   if (savedKey) document.getElementById('apiKeyLogin').value = savedKey;
 }
-
 inizializza();
 
 function checkLogin() {
@@ -193,7 +189,6 @@ function checkLogin() {
   const apiK = document.getElementById('apiKeyLogin').value.trim();
   const ricorda = document.getElementById('ricordami').checked;
   const errEl = document.getElementById('loginError');
-
   if (pwd !== ACCESS_CODE) {
     errEl.textContent = 'Codice non corretto';
     errEl.style.display = 'block';
@@ -205,14 +200,10 @@ function checkLogin() {
     errEl.style.display = 'block';
     return;
   }
-
   API_KEY = apiK;
   localStorage.setItem('marco_api_key', API_KEY);
-  if (ricorda) {
-    localStorage.setItem('ut_auth_saved', '1');
-  } else {
-    sessionStorage.setItem('ut_auth', '1');
-  }
+  if (ricorda) localStorage.setItem('ut_auth_saved', '1');
+  else sessionStorage.setItem('ut_auth', '1');
   document.getElementById('loginScreen').style.display = 'none';
   addMessage('marco', 'Pronto! Ho i cataloghi Movex 2025, Tecom 2026, Rexnord e 4.500+ codici DUE EFFE. Cosa cerchi?');
 }
@@ -232,9 +223,7 @@ function renderAttachments() {
   pendingFiles.forEach((f,i) => {
     const div = document.createElement('div');
     div.className = 'attachment-preview';
-    if (f.type.startsWith('image/')) {
-      div.innerHTML = '<img src="'+f.data+'"><button class="remove-btn" onclick="removeFile('+i+')">x</button>';
-    }
+    if (f.type.startsWith('image/')) div.innerHTML = '<img src="'+f.data+'"><button class="remove-btn" onclick="removeFile('+i+')">x</button>';
     row.appendChild(div);
   });
 }
@@ -251,9 +240,7 @@ function addMessage(role, text, imageData) {
   wrap.className = 'message '+role;
   const escaped = (text||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   const extra = imageData ? '<img src="'+imageData+'">' : '';
-  const av = role==='marco'
-    ? '<div class="avatar marco-av">M</div>'
-    : '<div class="avatar user-av">TU</div>';
+  const av = role==='marco' ? '<div class="avatar marco-av">M</div>' : '<div class="avatar user-av">TU</div>';
   if (role === 'marco') {
     wrap.innerHTML = av+'<div style="display:flex;flex-direction:column"><div class="bubble">'+escaped+extra+'</div><div class="marco-actions"><button class="btn-copia" onclick="copiaRisposta(this)">Copia</button></div></div>';
   } else {
@@ -275,7 +262,7 @@ function hideTyping() { document.getElementById('typing')?.remove(); }
 
 async function sendMessage() {
   if (isLoading) return;
-  if (!API_KEY) { alert('API key mancante — ricarica la pagina e accedi di nuovo.'); return; }
+  if (!API_KEY) { alert('Sessione scaduta - ricarica la pagina e accedi di nuovo.'); return; }
   const input = document.getElementById('userInput');
   const text = input.value.trim();
   const files = [...pendingFiles];
@@ -323,8 +310,7 @@ function nuovaRicerca() {
   pendingFiles = [];
   renderAttachments();
   const welcome = document.createElement('div');
-  welcome.className = 'welcome';
-  welcome.id = 'welcome';
+  welcome.className = 'welcome'; welcome.id = 'welcome';
   welcome.innerHTML = '<h2>Nuova ricerca</h2><p>Scrivi un codice articolo, una descrizione o allega una foto.</p><div class="chips"><button class="chip" onclick="sendChip(this)">Cerca per codice</button><button class="chip" onclick="sendChip(this)">Cerca per descrizione</button><button class="chip" onclick="sendChip(this)">Allego foto del pezzo</button><button class="chip" onclick="sendChip(this)">Trova equivalenti</button></div><div class="brands-bar"><span class="brand-badge">TECOM</span><span class="brand-badge">MOVEX</span><span class="brand-badge">REXNORD</span></div>';
   chat.appendChild(welcome);
   document.getElementById('userInput').focus();
@@ -334,8 +320,7 @@ function copiaRisposta(btn) {
   const bubble = btn.closest('div[style]').querySelector('.bubble');
   const testo = bubble ? bubble.innerText : '';
   navigator.clipboard.writeText(testo).then(() => {
-    btn.textContent = 'Copiato!';
-    btn.classList.add('copiato');
+    btn.textContent = 'Copiato!'; btn.classList.add('copiato');
     setTimeout(() => { btn.textContent = 'Copia'; btn.classList.remove('copiato'); }, 2000);
   }).catch(() => {
     const ta = document.createElement('textarea');
@@ -349,8 +334,7 @@ function condividiWhatsApp() {
   const bubbles = document.querySelectorAll('.message.marco .bubble');
   if (bubbles.length === 0) { alert('Nessuna risposta da condividere'); return; }
   const testo = bubbles[bubbles.length - 1].innerText;
-  const url = 'https://wa.me/?text=' + encodeURIComponent(testo);
-  window.open(url, '_blank');
+  window.open('https://wa.me/?text=' + encodeURIComponent(testo), '_blank');
 }
 
 function buildUserContent(text, files) {
@@ -358,9 +342,7 @@ function buildUserContent(text, files) {
   const parts = [];
   files.forEach(f => {
     const b64 = f.data.split(',')[1];
-    if (f.type.startsWith('image/')) {
-      parts.push({type:'image', source:{type:'base64', media_type:f.type, data:b64}});
-    }
+    if (f.type.startsWith('image/')) parts.push({type:'image', source:{type:'base64', media_type:f.type, data:b64}});
   });
   if (text) parts.push({type:'text', text});
   return parts;
