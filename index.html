@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/png" href="/logo.png">
 <link rel="apple-touch-icon" href="/logo.png">
+<meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Marco UT">
@@ -97,7 +98,7 @@ header{background:var(--verde-dark);color:white;padding:0 14px;height:52px;displ
       <label for="ricordami" style="font-size:13px;color:#666;cursor:pointer;">Ricordami su questo dispositivo</label>
     </div>
     <button class="login-btn" onclick="checkLogin()">Accedi</button>
-    <div class="login-error" id="loginError">Codice non corretto - verifica anche la API key</div>
+    <div class="login-error" id="loginError">Codice non corretto</div>
     <div class="login-footer">Tecom - Movex - Rexnord</div>
   </div>
 </div>
@@ -159,47 +160,61 @@ header{background:var(--verde-dark);color:white;padding:0 14px;height:52px;displ
 
 <script>
 const ACCESS_CODE = 'Tecnico26';
-let API_KEY = localStorage.getItem('marco_api_key') || '';
+let API_KEY = '';
 let conversationHistory = [];
 let pendingFiles = [];
 let isLoading = false;
+
+// Controlla se c'e' sessione salvata valida
+function inizializza() {
+  const savedKey = localStorage.getItem('marco_api_key');
+  const savedAuth = localStorage.getItem('ut_auth_saved');
+  const sessionAuth = sessionStorage.getItem('ut_auth');
+
+  if (savedAuth === '1' && savedKey && savedKey.startsWith('sk-')) {
+    API_KEY = savedKey;
+    document.getElementById('loginScreen').style.display = 'none';
+    return;
+  }
+  if (sessionAuth === '1' && savedKey && savedKey.startsWith('sk-')) {
+    API_KEY = savedKey;
+    document.getElementById('loginScreen').style.display = 'none';
+    return;
+  }
+  // Mostra login — pre-compila API key se presente ma auth scaduta
+  document.getElementById('loginScreen').style.display = 'flex';
+  if (savedKey) document.getElementById('apiKeyLogin').value = savedKey;
+}
+
+inizializza();
 
 function checkLogin() {
   const pwd = document.getElementById('loginInput').value;
   const apiK = document.getElementById('apiKeyLogin').value.trim();
   const ricorda = document.getElementById('ricordami').checked;
+  const errEl = document.getElementById('loginError');
+
   if (pwd !== ACCESS_CODE) {
-    document.getElementById('loginError').style.display = 'block';
+    errEl.textContent = 'Codice non corretto';
+    errEl.style.display = 'block';
     document.getElementById('loginInput').value = '';
     return;
   }
-  const keyDaUsare = apiK || API_KEY;
-  if (!keyDaUsare || !keyDaUsare.startsWith('sk-')) {
-    document.getElementById('loginError').textContent = 'Inserisci una API key valida (sk-ant-...)';
-    document.getElementById('loginError').style.display = 'block';
+  if (!apiK || !apiK.startsWith('sk-')) {
+    errEl.textContent = 'API key non valida (deve iniziare con sk-)';
+    errEl.style.display = 'block';
     return;
   }
-  API_KEY = keyDaUsare;
+
+  API_KEY = apiK;
+  localStorage.setItem('marco_api_key', API_KEY);
   if (ricorda) {
-    localStorage.setItem('marco_api_key', API_KEY);
     localStorage.setItem('ut_auth_saved', '1');
   } else {
-    sessionStorage.setItem('ut_auth','1');
+    sessionStorage.setItem('ut_auth', '1');
   }
   document.getElementById('loginScreen').style.display = 'none';
-  addMessage('marco','Pronto! Ho il sistema completo con i cataloghi Movex 2025, Tecom 2026, Rexnord e 4.500+ codici DUE EFFE. Cosa cerchi?');
-}
-
-if (localStorage.getItem('ut_auth_saved') === '1' && localStorage.getItem('marco_api_key')) {
-  API_KEY = localStorage.getItem('marco_api_key');
-  document.getElementById('loginScreen').style.display = 'none';
-} else if (sessionStorage.getItem('ut_auth') === '1' && API_KEY) {
-  document.getElementById('loginScreen').style.display = 'none';
-} else {
-  if (API_KEY) {
-    document.getElementById('apiKeyLogin').value = API_KEY;
-    document.getElementById('ricordami').checked = true;
-  }
+  addMessage('marco', 'Pronto! Ho i cataloghi Movex 2025, Tecom 2026, Rexnord e 4.500+ codici DUE EFFE. Cosa cerchi?');
 }
 
 document.getElementById('fileInput').addEventListener('change', function(e) {
@@ -260,7 +275,7 @@ function hideTyping() { document.getElementById('typing')?.remove(); }
 
 async function sendMessage() {
   if (isLoading) return;
-  if (!API_KEY) return;
+  if (!API_KEY) { alert('API key mancante — ricarica la pagina e accedi di nuovo.'); return; }
   const input = document.getElementById('userInput');
   const text = input.value.trim();
   const files = [...pendingFiles];
@@ -283,7 +298,8 @@ async function sendMessage() {
     const data = await response.json();
     if (data.error) {
       hideTyping();
-      addMessage('marco','Errore API: '+data.error.message);
+      const msg = typeof data.error === 'string' ? data.error : (data.error.message || JSON.stringify(data.error));
+      addMessage('marco', 'Errore: '+msg);
     } else {
       const reply = data.content[0].text;
       conversationHistory.push({role:'assistant', content:reply});
