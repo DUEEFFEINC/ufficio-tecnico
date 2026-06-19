@@ -97,3 +97,9 @@ S0632/616843 = 220/82111  [confermato tabella ufficiale]
 Movex PRODUCE piedini regolabili (serie P400, P400R, C500, C500-Heavy, C500-Split)
 Filetto minimo disponibile: M12
 Per M8 e M10: Movex non copre — usare Tecom o Rexnord
+
+---
+
+S0237/63151 = Movex 325/32501 = M0325 32501 (MORSETTO X GUIDA CONICA L59 NERO)
+Tecom 232/80688 (senza perno) — cod. DUE EFFE non presente su Zucchetti
+Tecom 484/87040 (con perno Dp12) — cod. DUE EFFE non presente su Zucchetti
