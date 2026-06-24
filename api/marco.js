@@ -12,15 +12,25 @@ function readFile(filename) {
 
 function cercaContesto(query) {
   const q = query.toLowerCase();
-  const isMovex = q.includes('movex') || q.includes('m0') || q.includes('art-nr');
+  const isMovex = q.includes('movex') || q.includes('art-nr');
   const isTecom = q.includes('tecom') || q.includes('tec') || q.includes('tel') || q.includes('part.');
   const isRexnord = q.includes('rexnord') || q.includes('s0') || q.includes('r0') || q.includes('lev');
   const cercaTutti = !isMovex && !isTecom && !isRexnord;
 
+  // Carica listino DUE EFFE solo se la query contiene codici DUE EFFE
+  const needsListino = q.includes('tel0') || q.includes('tec0') || q.includes('teb0') ||
+    q.includes('b000') || q.includes('listino') || q.includes('prezzo') ||
+    q.includes('disponib') || q.includes('codice due effe') || q.includes('zucchetti');
+
   let ctx = '';
-  ctx += `=== LISTINO DUE EFFE ===\n${readFile('listino_1.txt')}${readFile('listino_2.txt')}${readFile('listino_3.txt')}\n\n`;
+  // Conversioni ed equivalenze: sempre (critici e piccoli)
   ctx += `=== TABELLA CONVERSIONI REXNORD-TECOM ===\n${readFile('conversioni.txt')}\n\n`;
   ctx += `=== EQUIVALENZE VERIFICATE ===\n${readFile('equivalenze.txt')}\n${readFile('regole.txt')}\n\n`;
+
+  // Listino DUE EFFE: solo se necessario
+  if (needsListino || cercaTutti) {
+    ctx += `=== LISTINO DUE EFFE ===\n${readFile('listino_1.txt')}${readFile('listino_2.txt')}${readFile('listino_3.txt')}\n\n`;
+  }
 
   if (isMovex || cercaTutti) {
     ctx += `=== CATALOGO MOVEX 2025 ===\n${readFile('movex_1.txt')}${readFile('movex_2.txt')}${readFile('movex_3.txt')}${readFile('movex_5.txt')}\n\n`;
@@ -123,7 +133,7 @@ export default async function handler(req, res) {
       },
       body: JSON.stringify({
         model: 'claude-sonnet-4-6',
-        max_tokens: 2000,
+        max_tokens: 1200,
         system: SYSTEM_PROMPT,
         messages: messagesConContesto
       })
